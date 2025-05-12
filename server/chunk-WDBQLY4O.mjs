@@ -1,0 +1,2 @@
+import './polyfills.server.mjs';
+import{a as m}from"./chunk-GHR2JLX2.mjs";import{C as t}from"./chunk-JDHKM3PU.mjs";import"./chunk-QNBSNOIV.mjs";import"./chunk-NV2INLNR.mjs";import{Qa as s,Yb as i,va as n}from"./chunk-BDN7SP6J.mjs";import"./chunk-X2SEQXRR.mjs";var p=class o{static \u0275fac=function(e){return new(e||o)};static \u0275cmp=n({type:o,selectors:[["app-permissions"]],decls:2,vars:0,template:function(e,a){e&1&&s(0,"app-header-nav")(1,"app-sidebar")},dependencies:[i,t,m],encapsulation:2})};export{p as PermissionsComponent};

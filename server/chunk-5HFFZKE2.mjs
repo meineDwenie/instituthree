@@ -1,0 +1,2 @@
+import './polyfills.server.mjs';
+import{a}from"./chunk-GHR2JLX2.mjs";import{C as m}from"./chunk-JDHKM3PU.mjs";import"./chunk-QNBSNOIV.mjs";import"./chunk-NV2INLNR.mjs";import{Qa as t,Yb as p,va as n}from"./chunk-BDN7SP6J.mjs";import"./chunk-X2SEQXRR.mjs";var r=class o{static \u0275fac=function(e){return new(e||o)};static \u0275cmp=n({type:o,selectors:[["app-roles"]],decls:2,vars:0,template:function(e,i){e&1&&t(0,"app-header-nav")(1,"app-sidebar")},dependencies:[p,m,a],encapsulation:2})};export{r as RolesComponent};
