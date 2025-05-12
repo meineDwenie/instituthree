@@ -1,0 +1,19 @@
+<mat-form-field appearance="fill">
+  <mat-select [(value)]="selected">
+    <!-- This controls what is shown when the dropdown is closed -->
+    <mat-select-trigger>
+      <img
+        class="flag-icon"
+        [src]="getSelectedLang()?.flag"
+        [alt]="getSelectedLang()?.label + ' flag'"
+      />
+      {{ getSelectedLang()?.label }}
+    </mat-select-trigger>
+
+    <!-- Dropdown options -->
+    <mat-option *ngFor="let lang of languages" [value]="lang.code">
+      <img class="flag-icon" [src]="lang.flag" [alt]="lang.label + ' flag'" />
+      {{ lang.label }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

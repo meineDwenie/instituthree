@@ -1,0 +1,84 @@
+<div class="register-form-container">
+  <div class="buttonsContainer">
+    <a
+      href="javascript:void(0)"
+      class="buttonShifting1"
+      (click)="onSwitchToLogin()"
+      >Login</a
+    >
+    <a href="javascript:void(0)" class="buttonShifting2">Create Account</a>
+  </div>
+
+  <div class="content">
+    <div class="labelContainer">
+      <h1 class="etiqueta">Let's create your account.</h1>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+      <label for="usernameRegisterInput">Username</label>
+      <input
+        type="text"
+        id="usernameRegisterInput"
+        formControlName="username"
+        placeholder="Choose a username"
+      />
+
+      <label for="emailRegisterInput">Email</label>
+      <input
+        type="email"
+        id="emailRegisterInput"
+        formControlName="email"
+        placeholder="example@email.com"
+      />
+
+      <label for="passwordRegisterInput">Password</label>
+      <input
+        type="password"
+        id="passwordRegisterInput"
+        formControlName="password"
+        placeholder="Enter your password"
+      />
+
+      <label for="passwordRepetitionRegisterInput">Confirm Password</label>
+      <input
+        type="password"
+        id="passwordRepetitionRegisterInput"
+        formControlName="confirmPassword"
+        placeholder="Enter your password again"
+      />
+
+      <label for="nameRegisterInput">Name</label>
+      <input
+        type="text"
+        id="nameRegisterInput"
+        formControlName="name"
+        placeholder="Enter your name"
+      />
+
+      <label for="lastNamesRegisterInput">Last Name</label>
+      <input
+        type="text"
+        id="lastNamesRegisterInput"
+        formControlName="lastName"
+        placeholder="Enter your last name"
+      />
+
+      <div *ngIf="registerForm.hasError('passwordMismatch')" class="error">
+        <small>Passwords do not match</small>
+      </div>
+
+      <button
+        type="submit"
+        class="createAccountButton"
+        [disabled]="registerForm.invalid"
+      >
+        Create Account
+      </button>
+    </form>
+
+    <p class="etiquetaRegistro">
+      Already have an account?
+      <a href="javascript:void(0)" (click)="onSwitchToLogin()"><b>Login</b></a>
+    </p>
+  </div>
+</div>

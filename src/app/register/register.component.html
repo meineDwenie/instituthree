@@ -1,0 +1,86 @@
+<body>
+  <mat-toolbar>
+    <h1 class="logoLabel">Instituthree</h1>
+  </mat-toolbar>
+
+  <!-- Page Container -->
+  <div class="page-container">
+    <!-- LEFT: Form -->
+    <div class="container">
+      <div class="buttonsContainer">
+        <a class="buttonShifting1" routerLink="/login">Iniciar sesión</a>
+        <button type="button" class="buttonShifting2">Crear cuenta</button>
+      </div>
+
+      <div class="content">
+        <div class="labelContainer">
+          <h1 class="etiqueta">Vamos a crear tu cuenta.</h1>
+        </div>
+
+        <form>
+          <label for="emailRegisterInput">Correo electrónico</label>
+          <input
+            type="email"
+            id="emailRegisterInput"
+            formControlName="email"
+            placeholder="ejemplo@email.com"
+          />
+
+          <label for="passwordRegisterInput">Contraseña</label>
+          <input
+            type="password"
+            id="passwordRegisterInput"
+            formControlName="password"
+            placeholder="Introduce tu contraseña"
+          />
+
+          <label for="passwordRepetitionRegisterInput"
+            >Repetir Contraseña</label
+          >
+          <input
+            type="password"
+            id="passwordRepetitionRegisterInput"
+            formControlName="confirmPassword"
+            placeholder="Introduce tu contraseña de nuevo"
+          />
+
+          <label for="nameRegisterInput">Nombre</label>
+          <input
+            type="text"
+            id="nameRegisterInput"
+            formControlName="name"
+            placeholder="Introduce tu nombre"
+          />
+
+          <label for="lastNamesRegisterInput">Apellidos</label>
+          <input
+            type="text"
+            id="lastNamesRegisterInput"
+            formControlName="lastNames"
+            placeholder="Introduce tus apellidos"
+          />
+
+          <button type="submit" class="createAccountButton">
+            Crear mi cuenta
+          </button>
+        </form>
+
+        <p class="etiquetaRegistro">
+          ¿Ya tienes cuenta?
+          <a routerLink="/login"><b>Iniciar sesión</b></a>
+        </p>
+      </div>
+    </div>
+
+    <!-- RIGHT: Image -->
+    <div class="right-side">
+      <div class="imageContainer">
+        <img
+          src="assets/images/registerStoryset.png"
+          alt="register photo"
+          class="registerImage"
+        />
+      </div>
+    </div>
+  </div>
+</body>

@@ -1,0 +1,26 @@
+<div class="custom-search-wrapper">
+  <input
+    matInput
+    [(ngModel)]="searchText"
+    placeholder="Search user ..."
+    (keyup.enter)="performSearch()"
+  />
+
+  <button
+    mat-icon-button
+    (click)="clearSearch()"
+    aria-label="Clear"
+    [style.visibility]="searchText ? 'visible' : 'hidden'"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <button
+    class="search-button"
+    mat-icon-button
+    (click)="performSearch()"
+    aria-label="Search"
+  >
+    <mat-icon>search</mat-icon>
+  </button>
+</div>

@@ -1,0 +1,72 @@
+<body>
+  <mat-toolbar>
+    <h1 class="logoLabel">Instituthree</h1>
+  </mat-toolbar>
+
+  <div class="page-container">
+    <!-- Left side - Image -->
+    <div class="left-side">
+      <div class="imageContainer">
+        <img
+          src="assets/images/loginStoryset.png"
+          alt="login photo"
+          class="loginImage"
+        />
+      </div>
+    </div>
+
+    <!-- Right side - Login Form -->
+    <div class="right-side">
+      <div class="contenedor">
+        <!-- Navigation Buttons -->
+        <div class="buttonsContainer">
+          <a href="#" class="buttonShifting1">Login</a>
+          <a href="/register" class="buttonShifting2">Create Account</a>
+        </div>
+
+        <!-- Login Form -->
+        <div class="contenido">
+          <div class="contenedorEtiqueta">
+            <h1 class="etiqueta">Let's login your details to start.</h1>
+          </div>
+          <div>
+            <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+              <label for="emailLogin">
+                <b class="letralabel">E-mail address</b>
+              </label>
+              <input
+                type="email"
+                id="emailLogin"
+                formControlName="email"
+                placeholder="example@email.com"
+              />
+
+              <label for="passwordLogin">
+                <b>Password</b>
+              </label>
+              <input
+                type="password"
+                id="passwordLogin"
+                formControlName="password"
+                placeholder="Enter your password here"
+              />
+
+              <button
+                type="submit"
+                class="signupButton"
+                [disabled]="loginForm.invalid"
+              >
+                Enter
+              </button>
+            </form>
+
+            <p class="etiquetaRegistro">
+              Don't have any account yet?
+              <a routerLink="/register"><b>Register</b></a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

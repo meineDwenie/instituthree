@@ -1,0 +1,57 @@
+<div class="login-form-container">
+  <!-- Navigation Buttons -->
+  <div class="buttonsContainer">
+    <a href="javascript:void(0)" class="buttonShifting1">Login</a>
+    <a
+      href="javascript:void(0)"
+      class="buttonShifting2"
+      (click)="onSwitchToRegister()"
+      >Create Account</a
+    >
+  </div>
+
+  <!-- Login Form -->
+  <div class="contenido">
+    <div class="contenedorEtiqueta">
+      <h1 class="etiqueta">Let's login your details to start.</h1>
+    </div>
+    <div>
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+        <label for="emailLogin">
+          <b class="letralabel">E-mail address</b>
+        </label>
+        <input
+          type="email"
+          id="emailLogin"
+          formControlName="email"
+          placeholder="example@email.com"
+        />
+
+        <label for="passwordLogin">
+          <b>Password</b>
+        </label>
+        <input
+          type="password"
+          id="passwordLogin"
+          formControlName="password"
+          placeholder="Enter your password here"
+        />
+
+        <button
+          type="submit"
+          class="signupButton"
+          [disabled]="loginForm.invalid"
+        >
+          Enter
+        </button>
+      </form>
+
+      <p class="etiquetaRegistro">
+        Don't have any account yet?
+        <a href="javascript:void(0)" (click)="onSwitchToRegister()"
+          ><b>Register</b></a
+        >
+      </p>
+    </div>
+  </div>
+</div>

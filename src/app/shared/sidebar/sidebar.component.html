@@ -1,0 +1,53 @@
+<div class="sidebar p-4">
+  <div class="higher-part">
+    <!-- Top Label -->
+    <div>
+      <p class="gestion-label">
+        <i class="bi bi-grid-fill me-2"></i> Admin Management
+      </p>
+    </div>
+
+    <!-- Main Navigation Links -->
+    <div class="nav-links">
+      <ul class="nav flex-column gap-2 mt-3">
+        <li>
+          <a
+            routerLink="/user-management"
+            routerLinkActive="active"
+            class="nav-link ps-4"
+            ><i class="bi bi-person-badge me-2"></i> Users Registry</a
+          >
+        </li>
+        <li>
+          <a routerLink="/roles" routerLinkActive="active" class="nav-link ps-4"
+            ><i class="bi bi-person-lock me-2"></i> Roles</a
+          >
+        </li>
+        <li>
+          <a
+            routerLink="/permissions"
+            routerLinkActive="active"
+            class="nav-link ps-4"
+            ><i class="bi bi-shield-check me-2"></i> Permissions</a
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Bottom Section -->
+  <div class="mt-auto pt-5">
+    <ul nav flex-column gap-2 mt-3>
+      <li>
+        <a routerLink="/settings" class="nav-link settings-link"
+          ><i class="btn-config bi-gear-fill me-2"></i> Settings</a
+        >
+      </li>
+      <li>
+        <button type="button" (click)="logout()" class="logout">
+          <i class="bi bi-box-arrow-right me-2"></i> Logout
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>

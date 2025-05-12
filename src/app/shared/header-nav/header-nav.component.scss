@@ -1,0 +1,21 @@
+/* Toolbar styling */
+mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #313131;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  height: 64px;
+  padding: 0 24px;
+}
+
+.lang-select {
+  margin-right: 0; // optional spacing to right side
+}
+
+.logoLabel {
+  font-family: "Monomaniac One", sans-serif;
+  font-weight: 400;
+  margin: 0;
+}

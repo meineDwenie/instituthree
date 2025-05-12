@@ -1,0 +1,150 @@
+:host {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.register-form-container {
+  width: 100%;
+  max-width: 450px;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+input {
+  border-radius: 5px;
+  margin-bottom: 15px;
+  padding: 12px;
+  border: 1px solid #000000;
+  height: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+label {
+  font-family: "Murecho", sans-serif;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.labelContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.etiqueta {
+  font-family: "Murecho", sans-serif;
+  font-weight: 300;
+  font-size: 1.5rem;
+  margin: 0;
+  align-self: center;
+}
+
+.etiquetaRegistro {
+  margin-top: 10px;
+  font-family: "Murecho", sans-serif;
+  align-self: center;
+  text-align: center;
+}
+
+.etiquetaRegistro a {
+  font-family: "Murecho", sans-serif;
+  color: inherit;
+  text-decoration: none;
+}
+
+.etiquetaRegistro a:hover {
+  text-decoration: underline;
+}
+
+.createAccountButton {
+  background-color: #313131;
+  color: white;
+  font-family: "Murecho", sans-serif;
+  border: none;
+  border-radius: 10px;
+  padding: 15px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+.createAccountButton:hover {
+  background-color: #000000;
+}
+
+.createAccountButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.buttonsContainer {
+  display: flex;
+  border: 2px solid black;
+  border-radius: 10px;
+  margin: 20 auto; /* Center horizontally */
+  align-self: center; /* Center within flex parent */
+  margin-bottom: 20px;
+  width: 80%;
+  max-width: 350px; /* Add max-width for very large screens */
+}
+
+.buttonShifting1,
+.buttonShifting2 {
+  flex: 1;
+  text-align: center;
+  min-width: 130px;
+  margin: 5px;
+  font-family: "Murecho", sans-serif;
+  border-radius: 10px;
+  padding: 10px 15px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s;
+  text-decoration: none;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+}
+
+.buttonShifting1 {
+  background-color: white;
+  color: black;
+}
+
+.buttonShifting2 {
+  background-color: #313131;
+  color: white;
+}
+
+/* Hover states */
+.buttonShifting1:hover {
+  background-color: #f0f0f0;
+}
+
+.buttonShifting2:hover {
+  background-color: #000000;
+}
+
+.error small {
+  color: #d9534f;
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+}

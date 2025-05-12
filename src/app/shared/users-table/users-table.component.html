@@ -1,0 +1,83 @@
+<mat-form-field appearance="outline">
+  <mat-label>Filter</mat-label>
+  <input
+    matInput
+    (keyup)="applyFilter($event)"
+    placeholder="Search users"
+    #input
+  />
+</mat-form-field>
+
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort>
+    <!-- Name & ID Column -->
+    <ng-container matColumnDef="nameId">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name & ID</th>
+      <td mat-cell *matCellDef="let user">
+        <div style="display: flex; align-items: center; gap: 10px">
+          <img
+            [src]="user.photoUrl"
+            alt="User"
+            width="40"
+            height="40"
+            style="border-radius: 50%"
+          />
+          <div>
+            <div>{{ user.fullName }}</div>
+            <div style="font-size: 12px; color: gray">#{{ user.id }}</div>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <!-- Email Column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+      <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+    </ng-container>
+
+    <!-- Role Column -->
+    <ng-container matColumnDef="role">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Role</th>
+      <td mat-cell *matCellDef="let user">{{ user.role }}</td>
+    </ng-container>
+
+    <!-- Status Column -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+      <td mat-cell *matCellDef="let user">
+        <span
+          [ngClass]="{
+            badge: true,
+            'badge-active': user.status === 'Active',
+            'badge-pending': user.status === 'Pending'
+          }"
+          >{{ user.status }}</span
+        >
+      </td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell *matCellDef="let user">
+        <button mat-raised-button class="btn-edit">Edit</button>
+        <button mat-raised-button class="btn-delete">Delete</button>
+      </td>
+    </ng-container>
+
+    <!-- Row rendering -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+    <!-- No data row -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="5">No data matching "{{ input.value }}"</td>
+    </tr>
+  </table>
+
+  <mat-paginator
+    [pageSizeOptions]="[10, 25, 50, 100]"
+    showFirstLastButtons
+  ></mat-paginator>
+</div>

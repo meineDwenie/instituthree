@@ -1,0 +1,168 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100vh;
+}
+
+.auth-container {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 64px); /* Subtract toolbar height */
+  display: flex;
+  overflow: hidden;
+
+  .form-container {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    transition: all 0.6s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    padding: 2rem;
+    box-sizing: border-box;
+    overflow-y: auto;
+  }
+
+  /* Image container styles */
+  .imgContainer {
+    max-width: 100%;
+    max-height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .authImage {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    padding-top: 0;
+    margin: 0;
+    align-self: center;
+    justify-self: center;
+  }
+
+  .form-container.login-container {
+    background: rgb(124, 165, 150);
+  }
+
+  .login-container {
+    right: 0;
+    transform: translateX(0%); /* Show login by default */
+    z-index: 2;
+  }
+
+  .register-container {
+    left: 0;
+    transform: translateX(100%); /* Hide register by default */
+    z-index: 1;
+  }
+
+  &.right-panel-active .login-container {
+    transform: translateX(-100%); /* Move out login */
+    z-index: 1;
+  }
+
+  &.right-panel-active .register-container {
+    transform: translateX(0%); /* Show register */
+    z-index: 2;
+  }
+
+  .overlay-container {
+    position: absolute;
+    top: 0;
+    left: 0%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 100; /* Ensure overlay is above forms */
+    transition: transform 0.6s ease-in-out;
+
+    .overlay {
+      background: rgb(124, 165, 150); /* Turquoise color */
+      color: white;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      transform: translateX(0);
+      transition: transform 0.6s ease-in-out;
+    }
+
+    .overlay-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .overlay-left {
+      transform: translateX(0);
+    }
+
+    .overlay-right {
+      transform: translateX(0);
+    }
+  }
+
+  &.right-panel-active .overlay-container {
+    transform: translateX(100%); /* Move overlay to the right */
+  }
+
+  &.right-panel-active .overlay {
+    transform: translateX(0%);
+  }
+}
+
+/* Styling for the overlay buttons */
+.overlay-panel {
+  h1 {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    font-family: "Murecho", sans-serif;
+  }
+
+  p {
+    margin-bottom: 1rem;
+    font-family: "Murecho", sans-serif;
+  }
+}
+
+.overlay-panel button {
+  background-color: transparent;
+  border: 1px solid white;
+  border-radius: 10px;
+  color: white;
+  font-family: "Murecho", sans-serif;
+  padding: 12px 20px;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background-color 0.3s;
+}
+
+.overlay-panel button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Toolbar styling */
+mat-form-field {
+  background-color: transparent;
+  margin: 0;
+  border: none;
+  height: 55px;
+  outline: none;
+}
+
+mat-select {
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  outline: transparent;
+  color: white;
+  height: 100%;
+}
