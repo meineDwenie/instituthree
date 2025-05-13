@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import {
@@ -11,6 +11,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { RegisterService } from '../../services/register.service';
 
 @Component({
   selector: 'app-register-form',
@@ -19,13 +20,14 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
   templateUrl: './register-form.component.html',
   styleUrl: './register-form.component.scss',
 })
-export class RegisterFormComponent {
+export class RegisterFormComponent implements OnInit {
   @Output() switchToLogin = new EventEmitter<void>();
   registerForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private registerService: RegisterService,
     private http: HttpClient
   ) {
     this.registerForm = this.fb.group(
@@ -41,6 +43,10 @@ export class RegisterFormComponent {
         validators: this.passwordMatchValidator,
       }
     );
+  }
+  ngOnInit(): void {
+    this.onRegister();
+    throw new Error('Method not implemented.');
   }
 
   // Custom validator to check if password and confirm password match

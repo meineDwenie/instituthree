@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import {
   provideHttpClient,
-  withFetch,
+  //withFetch,
   withInterceptorsFromDi,
 } from '@angular/common/http';
 
@@ -17,7 +17,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
-    provideHttpClient(withFetch()),
+    //provideHttpClient(withFetch()),
     provideHttpClient(withInterceptorsFromDi()),
   ],
 };

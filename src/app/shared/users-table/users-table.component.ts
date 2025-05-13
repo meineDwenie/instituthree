@@ -1,21 +1,23 @@
 import { CommonModule } from '@angular/common';
-import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  AfterViewInit,
+  ViewChild,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { UserData } from '../../models/userdata';
+import { UsersService } from '../../services/users.service';
 
-export interface UserData {
-  id: string;
-  fullName: string;
-  email: string;
-  role: 'Student' | 'Professor' | 'Admin' | 'Tutor' | 'Delegado';
-  status: 'Active' | 'Pending';
-  photoUrl: string;
-}
-
+/*
 const FULL_NAMES: string[] = [
   'John Doe',
   'Jane Smith',
@@ -47,7 +49,7 @@ const ROLE_OPTIONS: UserData['role'][] = [
   'Delegado',
 ];
 const STATUS_OPTIONS: UserData['status'][] = ['Active', 'Pending'];
-
+*/
 @Component({
   selector: 'app-users-table',
   standalone: true,
@@ -63,16 +65,39 @@ const STATUS_OPTIONS: UserData['status'][] = ['Active', 'Pending'];
   templateUrl: './users-table.component.html',
   styleUrl: './users-table.component.scss',
 })
-export class UsersTableComponent implements AfterViewInit {
-  displayedColumns: string[] = ['nameId', 'email', 'role', 'status', 'actions'];
-  dataSource: MatTableDataSource<UserData>;
+export class UsersTableComponent implements OnInit, AfterViewInit {
+  // For table reusable
+  @Input() displayedColumns: string[] = [
+    'nameId',
+    'email',
+    'role',
+    'status',
+    'actions',
+  ];
+  @Input() set userData(users: UserData[]) {
+    this.dataSource = new MatTableDataSource<UserData>(users);
+    if (this.sort && this.paginator) {
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    }
+  }
+
+  // Output for actions
+  @Output() editUser = new EventEmitter<UserData>();
+  @Output() deleteUser = new EventEmitter<UserData>();
+  @Output() filterChange = new EventEmitter<string>();
+
+  // Table data source
+  dataSource = new MatTableDataSource<UserData>([]);
 
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort!: MatSort;
 
-  constructor() {
-    const users = Array.from({ length: 100 }, (_, i) => createUser(i + 1));
-    this.dataSource = new MatTableDataSource(users);
+  constructor() {}
+
+  ngOnInit(): void {
+    //this.loadUsers();
+    // Initial configuration
   }
 
   ngAfterViewInit() {
@@ -87,9 +112,21 @@ export class UsersTableComponent implements AfterViewInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+
+    // Emit the filter value to parent component
+    this.filterChange.emit(filterValue);
+  }
+
+  onEdit(user: UserData) {
+    this.editUser.emit(user);
+  }
+
+  onDelete(user: UserData) {
+    this.deleteUser.emit(user);
   }
 }
 
+/*
 function createUser(index: number): UserData {
   const name = FULL_NAMES[index % FULL_NAMES.length];
   const [first, last] = name.split(' ');
@@ -103,3 +140,4 @@ function createUser(index: number): UserData {
     photoUrl: `https://i.pravatar.cc/150?img=${(index % 70) + 1}`,
   };
 }
+  */

@@ -1,0 +1,34 @@
+<app-header-nav></app-header-nav>
+<app-sidebar></app-sidebar>
+
+<main class="user-management-container">
+  <div class="user-management-header">
+    <h1>User Management</h1>
+
+    <div class="actions">
+      <button
+        class="btn-adduser"
+        mat-raised-button
+        (click)="openAddUserDialog()"
+      >
+        <i class="bi bi-plus" style="margin-right: 8px"></i>
+        Add new user
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading spinner (loading spinner) -->
+  <div *ngIf="isLoading" class="loading-spinner">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+
+  <!-- User Table Component with Inputs and Outputs -->
+  <app-users-table
+    [userData]="users"
+    [displayedColumns]="displayedColumns"
+    (editUser)="handleEditUser($event)"
+    (deleteUser)="handleDeleteUser($event)"
+    (filterChange)="handleFilterChange($event)"
+  >
+  </app-users-table>
+</main>

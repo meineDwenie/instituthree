@@ -1,43 +1,57 @@
 import { Routes } from '@angular/router';
+import { AuthenticationComponent } from './pages/authentication/authentication.component';
+import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
+import { UserManagementComponent } from './pages/user-management/user-management.component';
+import { RolesComponent } from './pages/roles/roles.component';
+import { PermissionsComponent } from './pages/permissions/permissions.component';
 
 export const routes: Routes = [
-  //{ path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '', redirectTo: '/authentication', pathMatch: 'full' },
 
   {
     path: 'authentication',
     loadComponent: () =>
-      import('./authentication/authentication.component').then(
+      import('./pages/authentication/authentication.component').then(
         (m) => m.AuthenticationComponent
       ),
   },
   {
     path: 'login',
     loadComponent: () =>
-      import('./login/login.component').then((m) => m.LoginComponent),
+      import('./pages/login/login.component').then((m) => m.LoginComponent),
   },
   {
     path: 'register',
     loadComponent: () =>
-      import('./register/register.component').then((m) => m.RegisterComponent),
+      import('./pages/register/register.component').then(
+        (m) => m.RegisterComponent
+      ),
   },
   {
     path: 'user-management',
     loadComponent: () =>
-      import('./user-management/user-management.component').then(
+      import('./pages/user-management/user-management.component').then(
         (m) => m.UserManagementComponent
       ),
   },
   {
     path: 'roles',
     loadComponent: () =>
-      import('./roles/roles.component').then((m) => m.RolesComponent),
+      import('./pages/roles/roles.component').then((m) => m.RolesComponent),
   },
   {
     path: 'permissions',
     loadComponent: () =>
-      import('./permissions/permissions.component').then(
+      import('./pages/permissions/permissions.component').then(
         (m) => m.PermissionsComponent
+      ),
+  },
+  {
+    path: 'edit-user-dialog',
+    loadComponent: () =>
+      import('./shared/edit-user-dialog/edit-user-dialog.component').then(
+        (m) => m.EditUserDialogComponent
       ),
   },
 ];

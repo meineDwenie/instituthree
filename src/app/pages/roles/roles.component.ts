@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderNavComponent } from '../shared/header-nav/header-nav.component';
-import { SidebarComponent } from '../shared/sidebar/sidebar.component';
+import { HeaderNavComponent } from '../../shared/header-nav/header-nav.component';
+import { SidebarComponent } from '../../shared/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-roles',

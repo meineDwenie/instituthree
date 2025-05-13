@@ -1,0 +1,46 @@
+.dialog-container {
+  padding: 0;
+  max-width: 500px;
+}
+
+.form-row {
+  margin-bottom: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.two-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.avatar-preview {
+  display: flex;
+  justify-content: center;
+  margin: 16px 0;
+
+  img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #ddd;
+  }
+}
+
+h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+mat-dialog-content {
+  margin-bottom: 24px;
+}
+
+mat-dialog-actions {
+  padding: 16px 0;
+  margin-bottom: 0;
+}

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginFormComponent } from '../login-form/login-form.component';
-import { RegisterFormComponent } from '../register-form/register-form.component';
-import { HeaderNavComponent } from '../shared/header-nav/header-nav.component';
+import { LoginFormComponent } from '../../shared/login-form/login-form.component';
+import { RegisterFormComponent } from '../../shared/register-form/register-form.component';
+import { HeaderNavComponent } from '../../shared/header-nav/header-nav.component';
 
 @Component({
   selector: 'app-authentication',
