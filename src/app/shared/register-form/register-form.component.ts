@@ -10,8 +10,8 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { RegisterService } from '../../services/register.service';
+import { HttpClientModule } from '@angular/common/http';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register-form',
@@ -23,12 +23,12 @@ import { RegisterService } from '../../services/register.service';
 export class RegisterFormComponent implements OnInit {
   @Output() switchToLogin = new EventEmitter<void>();
   registerForm: FormGroup;
+  registrationError: string | null = null;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private registerService: RegisterService,
-    private http: HttpClient
+    private authService: AuthService
   ) {
     this.registerForm = this.fb.group(
       {
@@ -44,9 +44,9 @@ export class RegisterFormComponent implements OnInit {
       }
     );
   }
+
   ngOnInit(): void {
-    this.onRegister();
-    throw new Error('Method not implemented.');
+    // Initialize any required data
   }
 
   // Custom validator to check if password and confirm password match
@@ -69,33 +69,32 @@ export class RegisterFormComponent implements OnInit {
   }
 
   onRegister(): void {
+    this.registrationError = null;
+
     if (this.registerForm.valid) {
       const { username, email, password, name, lastName } =
         this.registerForm.value;
 
-      const requestBody = {
+      const userData = {
         username,
-        password,
         email,
+        password,
         name,
         lastName,
       };
 
-      console.log('Register with:', username, email, password, name, lastName);
-      // Register Action API call
-      this.http
-        .post('https://registerapp.up.railway.app/api/register', requestBody)
-        .subscribe({
-          next: (response) => {
-            console.log('Registration successful:', response);
-            // navigate to user-management page (or create register success message))
-            this.router.navigate(['/user-management']);
-          },
-          error: (error) => {
-            console.error('Registration failed:', error);
-            // Handle registration error (e.g., show error message)
-          },
-        });
+      this.authService.register(userData).subscribe({
+        next: (user) => {
+          console.log('Registration successful:', user);
+          // Navigate to user-management page after successful registration
+          this.router.navigate(['/user-management']);
+        },
+        error: (error) => {
+          console.error('Registration failed:', error);
+          this.registrationError =
+            error.message || 'Registration failed. Please try again.';
+        },
+      });
     } else {
       // Mark all fields as touched to trigger validation messages
       Object.keys(this.registerForm.controls).forEach((key) => {

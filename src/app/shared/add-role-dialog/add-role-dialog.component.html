@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>New Role Addition</h2>
+
+<mat-dialog-content>
+  <mat-form-field appearance="outline" style="width: 100%">
+    <mat-label>Role</mat-label>
+    <input
+      matInput
+      [(ngModel)]="roleName"
+      placeholder="Enter role name"
+      required
+    />
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="onSave()"
+    [disabled]="!roleName.trim()"
+  >
+    Save Role
+  </button>
+</mat-dialog-actions>

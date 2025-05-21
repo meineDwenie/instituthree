@@ -1,0 +1,65 @@
+html,
+body {
+  font-family: "Murecho", sans-serif;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent full-page scroll */
+}
+
+.roles-management-container {
+  height: calc(100vh - 100px); /* Subtract toolbar height */
+  padding: 20px 50px 20px 50px;
+  margin-left: 320px; /* Leave room for sidebar */
+  background-color: #f6f6f6;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+}
+
+h1 {
+  margin: 0;
+  font-family: "Murecho", sans-serif !important;
+}
+
+.btn-addrole {
+  color: black !important;
+  background-color: #70d3c3 !important;
+  border-radius: 10px;
+  border: black 1px solid;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  line-height: 1;
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Custom snackbar styles - add this to your global styles.scss for app-wide use */
+::ng-deep .success-snackbar {
+  background-color: #4caf50 !important;
+  color: white;
+}
+
+::ng-deep .warning-snackbar {
+  background-color: #ff9800 !important;
+  color: white;
+}
+
+::ng-deep .error-snackbar {
+  background-color: #f44336 !important;
+  color: white;
+}
+
+::ng-deep .mat-mdc-snack-bar-action {
+  color: white !important;
+}

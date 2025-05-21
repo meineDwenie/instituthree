@@ -5,4 +5,5 @@ export interface UserData {
   role: 'Student' | 'Professor' | 'Admin' | 'Tutor' | 'Delegado';
   status: 'Active' | 'Pending';
   photoUrl: string;
+  originalRole?: any; // Optional field to store the original object
 }

@@ -1,10 +1,5 @@
 import { Routes } from '@angular/router';
-import { AuthenticationComponent } from './pages/authentication/authentication.component';
-import { LoginComponent } from './pages/login/login.component';
-import { RegisterComponent } from './pages/register/register.component';
-import { UserManagementComponent } from './pages/user-management/user-management.component';
-import { RolesComponent } from './pages/roles/roles.component';
-import { PermissionsComponent } from './pages/permissions/permissions.component';
+import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/authentication', pathMatch: 'full' },
@@ -28,17 +23,30 @@ export const routes: Routes = [
         (m) => m.RegisterComponent
       ),
   },
+  // Protected routes that require authentication
   {
     path: 'user-management',
     loadComponent: () =>
       import('./pages/user-management/user-management.component').then(
         (m) => m.UserManagementComponent
       ),
+    canActivate: [AuthGuard], // AuthGuard here
   },
   {
-    path: 'roles',
+    path: 'roles-management',
     loadComponent: () =>
-      import('./pages/roles/roles.component').then((m) => m.RolesComponent),
+      import('./pages/roles-management/roles.component').then(
+        (m) => m.RolesComponent
+      ),
+    canActivate: [AuthGuard], // AuthGuard here
+  },
+  {
+    path: 'edit-roles/:id',
+    loadComponent: () =>
+      import('./pages/edit-roles/edit-roles.component').then(
+        (m) => m.EditRolesComponent
+      ),
+    canActivate: [AuthGuard], // AuthGuard here
   },
   {
     path: 'permissions',
@@ -46,6 +54,7 @@ export const routes: Routes = [
       import('./pages/permissions/permissions.component').then(
         (m) => m.PermissionsComponent
       ),
+    canActivate: [AuthGuard], // AuthGuard here
   },
   {
     path: 'edit-user-dialog',
@@ -53,5 +62,6 @@ export const routes: Routes = [
       import('./shared/edit-user-dialog/edit-user-dialog.component').then(
         (m) => m.EditUserDialogComponent
       ),
+    canActivate: [AuthGuard], // AuthGuard here
   },
 ];

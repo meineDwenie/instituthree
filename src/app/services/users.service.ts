@@ -13,7 +13,7 @@ export class UsersService {
   private useMockData: boolean;
 
   constructor(private http: HttpClient, private mockService: MockUsersService) {
-    // Set up the service based on environment configuration
+    // Service based on environment configuration
     this.baseUrl = environment.apiUrl;
     this.useMockData = environment.useMockData;
 

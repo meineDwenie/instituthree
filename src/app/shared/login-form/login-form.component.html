@@ -15,6 +15,12 @@
     <div class="contenedorEtiqueta">
       <h1 class="etiqueta">Let's login your details to start.</h1>
     </div>
+
+    <!-- Error Alert -->
+    <div *ngIf="loginError" class="error-alert">
+      {{ loginError }}
+    </div>
+
     <div>
       <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
         <label for="emailLogin">

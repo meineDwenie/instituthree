@@ -15,7 +15,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { UserData } from '../../models/userdata';
-import { UsersService } from '../../services/users.service';
+import { MatIcon } from '@angular/material/icon';
 
 /*
 const FULL_NAMES: string[] = [
@@ -61,6 +61,7 @@ const STATUS_OPTIONS: UserData['status'][] = ['Active', 'Pending'];
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    MatIcon,
   ],
   templateUrl: './users-table.component.html',
   styleUrl: './users-table.component.scss',
@@ -125,19 +126,3 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
     this.deleteUser.emit(user);
   }
 }
-
-/*
-function createUser(index: number): UserData {
-  const name = FULL_NAMES[index % FULL_NAMES.length];
-  const [first, last] = name.split(' ');
-
-  return {
-    id: (1000 + index).toString(),
-    fullName: name,
-    email: `${first.toLowerCase()}.${last.toLowerCase()}@example.com`,
-    role: ROLE_OPTIONS[Math.floor(Math.random() * ROLE_OPTIONS.length)],
-    status: STATUS_OPTIONS[Math.floor(Math.random() * STATUS_OPTIONS.length)],
-    photoUrl: `https://i.pravatar.cc/150?img=${(index % 70) + 1}`,
-  };
-}
-  */

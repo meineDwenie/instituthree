@@ -1,18 +1,21 @@
+html,
 body {
-  font-family: "Murecho" sans-serif;
+  font-family: "Murecho", sans-serif;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent full-page scroll */
 }
 
-.mat-elevation-z8 {
-  background-color: rgb(251, 251, 251);
-  border-radius: 10px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+body {
+  background-color: #f6f6f6;
 }
 
 .user-management-container {
+  height: calc(100vh - 100px); /* Subtract toolbar height */
   padding: 20px 50px 20px 50px;
-  margin-left: 320px;
+  margin-left: 320px; /* Leave room for sidebar */
   background-color: #f6f6f6;
-  min-height: 100vh;
 }
 
 .user-management-header {
@@ -61,55 +64,18 @@ h1 {
 
 .btn-adduser {
   color: black !important;
-  background-color: white !important;
+  background-color: #70d3c3 !important;
   border-radius: 10px;
+  border: black 1px solid;
   display: flex;
   align-items: center;
-  padding: 6px 20px;
+  padding: 0 14px;
+  line-height: 1;
 }
 
-i {
-  font-size: 16px;
-}
-
-.btn-edit {
-  background-color: #97b2ca !important;
-  color: white !important;
-  border-radius: 20px;
-  padding: 0 30px;
-  margin-right: 10px;
-  transition: all 0.3s ease-in-out;
-  font-size: 14px;
-  font-weight: 400;
-}
-
-.btn-delete {
-  background-color: #fb8181 !important;
-  color: white !important;
-  border-radius: 20px;
-  padding: 0 24px;
-  transition: all 0.3s ease-in-out;
-  font-weight: 400;
-}
-
-.status-badge {
-  padding: inline-block;
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-weight: normal;
-  font-size: 12px;
-  text-align: center;
-  min-width: 80px;
-}
-
-.status-active {
-  background-color: #e7ffd0;
-  color: #577839;
-  padding: 4px 20px;
-}
-
-.status-pending {
-  background-color: #fff5cd;
-  color: #827230;
-  padding: 4px 20px;
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }

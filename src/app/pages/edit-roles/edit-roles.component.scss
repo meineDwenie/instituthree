@@ -1,0 +1,51 @@
+.edit-role-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+
+  h1 {
+    margin-bottom: 20px;
+  }
+
+  .role-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+
+    img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+    }
+
+    h2 {
+      margin: 0;
+    }
+  }
+
+  .permissions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+
+    mat-card {
+      padding-bottom: 16px;
+    }
+
+    .permissions-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 8px 0;
+    }
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+  }
+}

@@ -1,0 +1,29 @@
+<div class="header-user-profile" *ngIf="currentUser">
+  <div class="profile-avatar">
+    <div class="avatar-placeholder">{{ getUserInitials() }}</div>
+  </div>
+  <div class="profile-info">
+    <span class="user-name"
+      >{{ currentUser.name }} {{ currentUser.lastName }}</span
+    >
+    <span class="user-email">{{ currentUser.email }}</span>
+  </div>
+  <button
+    mat-icon-button
+    [matMenuTriggerFor]="profileMenu"
+    aria-label="User menu"
+  >
+    <mat-icon>expand_more</mat-icon>
+  </button>
+</div>
+
+<mat-menu #profileMenu="matMenu">
+  <button mat-menu-item routerLink="/profile">
+    <mat-icon>person</mat-icon>
+    <span>My Profile</span>
+  </button>
+  <button mat-menu-item (click)="logout()">
+    <mat-icon>exit_to_app</mat-icon>
+    <span>Logout</span>
+  </button>
+</mat-menu>

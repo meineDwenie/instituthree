@@ -1,0 +1,38 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title>Edit Permissions for {{ role?.name }}</h2>
+
+  <div *ngIf="isLoading" class="loading-container">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Loading permissions...</p>
+  </div>
+
+  <div *ngIf="!isLoading" mat-dialog-content>
+    <div class="permissions-container">
+      <div *ngFor="let group of permissionGroups" class="permission-group">
+        <h3>{{ group.name }}</h3>
+        <div class="permission-list">
+          <mat-checkbox
+            *ngFor="let permission of group.permissions"
+            [(ngModel)]="permission.checked"
+            color="primary"
+            class="permission-checkbox"
+          >
+            {{ permission.name }}
+          </mat-checkbox>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div mat-dialog-actions align="end">
+    <button mat-button (click)="cancel()">Cancel</button>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="savePermissions()"
+      [disabled]="isLoading"
+    >
+      Save Permissions
+    </button>
+  </div>
+</div>

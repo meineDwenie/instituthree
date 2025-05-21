@@ -148,3 +148,22 @@ label {
   font-size: 0.85rem;
   margin-bottom: 10px;
 }
+
+// Error message styles
+.error-alert {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  border: 1px solid #ef9a9a;
+  font-size: 14px;
+  font-family: "Murecho", sans-serif;
+}
+
+.validation-error {
+  color: #c62828;
+  font-size: 12px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}

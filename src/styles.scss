@@ -15,7 +15,7 @@ html {
       density: 0,
     )
   );
-} /* You can add global styles to this file, and also import other style files */
+}
 
 html,
 body {
@@ -23,6 +23,7 @@ body {
 }
 body {
   margin: 0;
+  background-color: #f6f6f6;
 }
 
 mat-toolbar {
@@ -30,4 +31,27 @@ mat-toolbar {
   top: 0;
   z-index: 1000;
   height: 64px; /* standard toolbar height */
+}
+
+//////////////// Language Dropdown Styles ////////////////////
+// Hover
+.mat-mdc-option:hover:not(.mdc-list-item--disabled) {
+  background: #d0e5e0 !important;
+}
+
+// Active Option
+.mat-mdc-option.mat-mdc-option-active {
+  background-color: rgba(113, 139, 135, 0.7) !important;
+}
+
+// Selected
+.mat-mdc-option.mdc-list-item--selected:not(.mdc-option-multiple):not(
+    .mdc-list-item--disabled
+  ) {
+  background: rgba(113, 139, 135, 0.7) !important;
+}
+
+.mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled)
+  .mdc-list-item__primary-text {
+  color: #ffffff !important;
 }

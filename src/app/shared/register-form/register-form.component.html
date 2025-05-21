@@ -14,6 +14,11 @@
       <h1 class="etiqueta">Let's create your account.</h1>
     </div>
 
+    <!-- Error Alert -->
+    <div *ngIf="registrationError" class="error-alert">
+      {{ registrationError }}
+    </div>
+
     <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
       <label for="usernameRegisterInput">Username</label>
       <input

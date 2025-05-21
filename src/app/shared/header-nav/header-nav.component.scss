@@ -3,8 +3,10 @@ mat-toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #313131;
-  color: white;
+  //background-color: #313131;
+  //color: white;
+  background-color: #ffffff;
+  color: #418a7e;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   height: 64px;
   padding: 0 24px;
@@ -15,7 +17,13 @@ mat-toolbar {
 }
 
 .logoLabel {
-  font-family: "Monomaniac One", sans-serif;
+  //font-family: "Monomaniac One", sans-serif;
+  font-family: "Lilita One", sans-serif;
   font-weight: 400;
+  font-size: 30px;
   margin: 0;
+}
+
+.spacer {
+  flex: 1 1 auto;
 }

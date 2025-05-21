@@ -1,7 +1,64 @@
 .flag-icon {
-  width: 20px;
-  height: 14px;
+  width: 18px;
+  height: 12px;
   margin-right: 8px;
   object-fit: cover;
   vertical-align: middle;
+  display: inline-flex;
+  align-items: center;
+}
+
+.compact-select {
+  margin: 0 0 12px 0;
+  padding: 0;
+}
+
+/* ===== Select Field Styling ===== */
+.compact-select ::ng-deep .mat-mdc-form-field {
+  height: 10px !important;
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+  width: 160px;
+  align-self: center;
+}
+
+.compact-select ::ng-deep .mat-mdc-form-field-infix {
+  padding: 6px 0 !important;
+  min-height: 32px !important;
+}
+
+.compact-select ::ng-deep .mat-mdc-select {
+  height: 10px !important;
+  line-height: 20px;
+  padding: 0 8px;
+}
+
+.compact-select ::ng-deep .mat-mdc-select-value {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  min-height: 32px;
+  line-height: 32px;
+}
+
+.compact-select ::ng-deep .mat-mdc-select-trigger {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  min-height: 24px;
+}
+
+.compact-select ::ng-deep .mat-mdc-select-arrow {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  color: #418a7e;
+}
+
+/* Layout inside toolbar */
+mat-toolbar app-select {
+  display: flex;
+  align-items: center;
+  height: 100%;
 }

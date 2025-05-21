@@ -1,0 +1,31 @@
+<app-header-nav></app-header-nav>
+<app-sidebar></app-sidebar>
+
+<div class="roles-management-container">
+  <div class="header">
+    <h1>User Roles</h1>
+    <button
+      class="btn-addrole"
+      mat-raised-button
+      color="primary"
+      (click)="openAddRoleDialog()"
+    >
+      <i class="bi bi-plus" style="margin-right: 8px"></i>
+      Add new role
+    </button>
+  </div>
+
+  <!-- Loading spinner (loading spinner) -->
+  <div *ngIf="isLoading" class="loading-spinner">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+
+  <app-users-table
+    [displayedColumns]="displayedColumns"
+    [userData]="adaptedRolesData"
+    (editUser)="editPermissions($event)"
+    (deleteUser)="deleteRole($event)"
+    (filterChange)="applyFilter($event)"
+  >
+  </app-users-table>
+</div>
