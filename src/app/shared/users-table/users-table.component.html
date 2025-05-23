@@ -25,7 +25,9 @@
             style="border-radius: 50%"
           />
           <div>
-            <div style="font-weight: 500">{{ user.fullName }}</div>
+            <div style="font-weight: 500">
+              {{ user.name }} {{ user.lastName }}
+            </div>
             <div style="font-size: 12px; color: gray">#{{ user.id }}</div>
           </div>
         </div>

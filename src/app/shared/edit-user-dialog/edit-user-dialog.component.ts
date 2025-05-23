@@ -5,7 +5,6 @@ import {
   Validators,
   FormsModule,
   ReactiveFormsModule,
-  Form,
 } from '@angular/forms';
 import {
   MAT_DIALOG_DATA,
@@ -37,7 +36,7 @@ import { UserData } from '../../models/userdata';
 })
 export class EditUserDialogComponent implements OnInit {
   userForm: FormGroup;
-  roles: string[] = ['Student', 'Professor', 'Admin', 'Tutor', 'Delegado'];
+  roles: string[] = ['Usuario', 'Admin'];
   statuses: string[] = ['Active', 'Pending'];
 
   constructor(
@@ -47,9 +46,10 @@ export class EditUserDialogComponent implements OnInit {
   ) {
     this.userForm = this.fb.group({
       id: [{ value: '', disabled: true }],
-      fullName: ['', [Validators.required, Validators.minLength(3)]],
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      lastName: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]], // Add or remove pssword?
+      password: ['', [Validators.required, Validators.minLength(6)]],
       role: ['', Validators.required],
       status: ['', Validators.required],
       photoUrl: [''],
@@ -57,12 +57,13 @@ export class EditUserDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Populate form with user data
-    if (this.data.user) {
+    if (this.data?.user) {
       this.userForm.patchValue({
         id: this.data.user.id,
-        fullName: this.data.user.fullName,
+        name: this.data.user.name,
+        lastName: this.data.user.lastName,
         email: this.data.user.email,
+        password: this.data.user.password,
         role: this.data.user.role,
         status: this.data.user.status,
         photoUrl: this.data.user.photoUrl,
@@ -71,8 +72,7 @@ export class EditUserDialogComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.userForm.valid) {
-      // Get form values and include the ID from the disabled control
+    if (this.userForm.valid && this.data?.user) {
       const updatedUser: UserData = {
         ...this.userForm.getRawValue(),
         id: this.data.user.id,
@@ -86,19 +86,27 @@ export class EditUserDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  // Getter methods for form controls (useful for validation in the template)
-  get fullName() {
-    return this.userForm.get('fullName');
+  // Getter methods for form controls (for cleaner validation access in template)
+  get name() {
+    return this.userForm.get('name');
   }
+
+  get lastName() {
+    return this.userForm.get('lastName');
+  }
+
   get email() {
     return this.userForm.get('email');
   }
+
   get role() {
     return this.userForm.get('role');
   }
+
   get status() {
     return this.userForm.get('status');
   }
+
   get password() {
     return this.userForm.get('password');
   }

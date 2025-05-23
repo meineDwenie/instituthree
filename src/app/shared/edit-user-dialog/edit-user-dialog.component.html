@@ -16,18 +16,35 @@
 
       <div class="form-row">
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Full Name</mat-label>
+          <mat-label>First Name</mat-label>
           <input
             matInput
-            formControlName="fullName"
-            placeholder="Enter full name"
+            formControlName="name"
+            placeholder="Enter first name"
           />
-          <mat-error *ngIf="fullName?.errors?.['required']"
-            >Full name is required</mat-error
-          >
-          <mat-error *ngIf="fullName?.errors?.['minlength']"
+          <mat-error *ngIf="userForm.get('name')?.errors?.['required']">
+            First name is required
+          </mat-error>
+          <mat-error *ngIf="name?.errors?.['minlength']"
             >Name must be at least 3 characters</mat-error
           >
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Last Name</mat-label>
+          <input
+            matInput
+            formControlName="lastName"
+            placeholder="Enter last name"
+          />
+          <mat-error *ngIf="userForm.get('lastName')?.errors?.['required']">
+            Last name is required
+          </mat-error>
+          <mat-error *ngIf="lastName?.errors?.['minlength']">
+            Last name must be at least 3 characters
+          </mat-error>
         </mat-form-field>
       </div>
 

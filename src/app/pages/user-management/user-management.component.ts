@@ -133,15 +133,12 @@ export class UserManagementComponent {
   }
 
   private updateUser(user: UserData): void {
-    const [name, ...lastParts] = user.fullName.split(' ');
-    const lastName = lastParts.join(' ');
-
     const updatePayload: CreateUserRequest = {
       username: user.email.split('@')[0],
-      password: user.password, // Default password if not provided
+      password: user.password,
       email: user.email,
-      name: name || '',
-      lastName: lastName || '',
+      name: user.name,
+      lastName: user.lastName,
       status: user.status === 'Active', // Convert to boolean as API expects
     };
     console.log('Update payload:', updatePayload);
@@ -167,16 +164,13 @@ export class UserManagementComponent {
   }
 
   private addUser(user: any): void {
-    // Split fullName into name and lastName
-    const [name, lastName] = user.fullName.split(' ');
-
     // Map to API's CreateUserRequest format
     const requestPayload: CreateUserRequest = {
       username: user.email.split('@')[0], // You can change this if you want custom usernames
       password: user.password,
       email: user.email,
-      name: name || '',
-      lastName: lastName || '',
+      name: user.name,
+      lastName: user.lastName,
       status: user.status === 'Active', // Convert to boolean as API expects
     };
 

@@ -36,7 +36,7 @@ import { UserData } from '../../models/userdata';
 })
 export class AddUserDialogComponent implements OnInit {
   userForm: FormGroup;
-  roles: string[] = ['Student', 'Professor', 'Admin', 'Tutor', 'Delegado'];
+  roles: string[] = ['Usuario', 'Admin'];
   statuses: string[] = ['Active', 'Pending'];
 
   constructor(
@@ -46,9 +46,10 @@ export class AddUserDialogComponent implements OnInit {
   ) {
     this.userForm = this.fb.group({
       id: [{ value: '', disabled: true }],
-      fullName: ['', [Validators.required, Validators.minLength(3)]],
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      lastName: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]], // Add or remove pssword?
+      password: ['', [Validators.required, Validators.minLength(6)]],
       role: ['', Validators.required],
       status: ['', Validators.required],
       photoUrl: [''],
@@ -58,7 +59,15 @@ export class AddUserDialogComponent implements OnInit {
   ngOnInit(): void {
     // Populate form with user data
     if (this.data.user) {
-      this.userForm.patchValue(this.data.user);
+      this.userForm.patchValue({
+        id: this.data.user.id,
+        name: this.data.user.name,
+        lastName: this.data.user.lastName,
+        email: this.data.user.email,
+        role: this.data.user.role,
+        status: this.data.user.status,
+        photoUrl: this.data.user.photoUrl,
+      });
     }
   }
 
@@ -76,8 +85,11 @@ export class AddUserDialogComponent implements OnInit {
   }
 
   // Getter methods for form controls (useful for validation in the template)
-  get fullName() {
-    return this.userForm.get('fullName');
+  get name() {
+    return this.userForm.get('name');
+  }
+  get lastName() {
+    return this.userForm.get('lastName');
   }
   get email() {
     return this.userForm.get('email');

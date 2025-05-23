@@ -77,17 +77,23 @@ export class RolesComponent implements OnInit {
 
   // Convert Role objects to UserData objects
   adaptRolesToUserData(): void {
-    this.adaptedRolesData = this.roles.map((role) => ({
-      id: role.id.toString(),
-      fullName: role.name,
-      email: '', // Empty string or placeholder
-      password: '', // Empty string or placeholder
-      role: role.name as UserData['role'], // Type assertion
-      status: 'Active' as UserData['status'], // Default status
-      photoUrl: role.photoUrl,
-      // Store original role object for reference if needed
-      originalRole: role,
-    }));
+    this.adaptedRolesData = this.roles.map((role) => {
+      const defaultLastName = 'User';
+      const defaultEmail = `${role.name.toLowerCase()}@example.com`;
+      const defaultUsername = `${role.name.toLowerCase()}.${defaultLastName.toLowerCase()}`;
+
+      return {
+        id: role.id.toString(),
+        name: role.name,
+        lastName: defaultLastName,
+        username: defaultUsername,
+        email: defaultEmail,
+        password: '',
+        role: 'Usuario', // Default role
+        status: 'Active',
+        photoUrl: role.photoUrl,
+      };
+    });
   }
 
   openAddRoleDialog(): void {

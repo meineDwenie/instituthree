@@ -51,7 +51,8 @@ export class UsersService {
         (users) =>
           users.map((user) => ({
             id: user.id.toString(),
-            fullName: `${user.name} ${user.lastName}`,
+            name: user.name,
+            lastName: user.lastName,
             email: user.email,
             role: this.mapRole(user.username), // Map based on username or add role field to API
             status: user.status ? 'Active' : 'Pending',
@@ -162,14 +163,20 @@ export class UsersService {
       );
   }
 
-  // Delete a user
   deleteUser(id: string): Observable<any> {
     if (this.useMockData) {
       return this.mockService.deleteUser(id);
     }
 
-    return this.http.delete(`${this.baseUrl}/users/${id}`).pipe(
-      tap((_) => console.log(`User deleted with id=${id}`)),
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return throwError(() => new Error('Authentication token is missing.'));
+    }
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.delete(`${this.baseUrl}/users/${id}`, { headers }).pipe(
+      tap(() => console.log(`User deleted with id=${id}`)),
       catchError(this.handleError<any>('deleteUser'))
     );
   }
@@ -194,14 +201,10 @@ export class UsersService {
     switch (username?.toLowerCase()) {
       case 'admin':
         return 'Admin';
-      case 'professor':
-        return 'Professor';
-      case 'tutor':
-        return 'Tutor';
-      case 'delegado':
-        return 'Delegado';
+      case 'usuario':
+        return 'Usuario';
       default:
-        return 'Student';
+        return 'Usuario';
     }
   }
 }
