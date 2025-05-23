@@ -81,6 +81,7 @@ export class RegisterFormComponent implements OnInit {
         password,
         name,
         lastName,
+        status: true, // Setting status to true by default for new registrations
       };
 
       this.authService.register(userData).subscribe({

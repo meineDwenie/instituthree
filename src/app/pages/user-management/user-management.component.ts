@@ -9,7 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { UserData } from '../../models/userdata';
+import { CreateUserRequest, UserData } from '../../models/userdata';
 import { UsersService } from '../../services/users.service';
 import { EditUserDialogComponent } from '../../shared/edit-user-dialog/edit-user-dialog.component';
 import { DeleteUserDialogComponent } from '../../shared/delete-user-dialog/delete-user-dialog.component';
@@ -36,25 +36,6 @@ export class UserManagementComponent {
   displayedColumns: string[] = ['nameId', 'email', 'role', 'status', 'actions'];
 
   users: UserData[] = [];
-  /*
-    [
-    {
-      id: 12345,
-      name: 'John Doe',
-      email: 'johndoe@email.com',
-      role: 'Student',
-      status: 'Active',
-      photo: 'https://randomuser.me/api/portraits',
-    },
-    {
-      id: 67890,
-      name: 'Jane Smith',
-      email: 'janesmith@example.com',
-      role: 'Teacher',
-      status: 'Pending',
-      photo: 'https://via.placeholder.com/40',
-    },
-  ];*/
 
   isLoading = false;
 
@@ -152,8 +133,21 @@ export class UserManagementComponent {
   }
 
   private updateUser(user: UserData): void {
-    this.usersService.updateUser(user).subscribe({
-      next: (updatedUser) => {
+    const [name, ...lastParts] = user.fullName.split(' ');
+    const lastName = lastParts.join(' ');
+
+    const updatePayload: CreateUserRequest = {
+      username: user.email.split('@')[0],
+      password: user.password, // Default password if not provided
+      email: user.email,
+      name: name || '',
+      lastName: lastName || '',
+      status: user.status === 'Active', // Convert to boolean as API expects
+    };
+    console.log('Update payload:', updatePayload);
+
+    this.usersService.updateUserRequest(user.id, updatePayload).subscribe({
+      next: () => {
         this.snackBar.open('User updated successfully', 'Close', {
           duration: 3000,
         });
@@ -172,8 +166,21 @@ export class UserManagementComponent {
     });
   }
 
-  private addUser(user: UserData): void {
-    this.usersService.createUser(user).subscribe({
+  private addUser(user: any): void {
+    // Split fullName into name and lastName
+    const [name, lastName] = user.fullName.split(' ');
+
+    // Map to API's CreateUserRequest format
+    const requestPayload: CreateUserRequest = {
+      username: user.email.split('@')[0], // You can change this if you want custom usernames
+      password: user.password,
+      email: user.email,
+      name: name || '',
+      lastName: lastName || '',
+      status: user.status === 'Active', // Convert to boolean as API expects
+    };
+
+    this.usersService.createUserRequest(requestPayload).subscribe({
       next: (newUser) => {
         this.snackBar.open('User added successfully', 'Close', {
           duration: 3000,

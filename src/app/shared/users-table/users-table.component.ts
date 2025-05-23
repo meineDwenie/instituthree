@@ -77,10 +77,12 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
   ];
   @Input() set userData(users: UserData[]) {
     this.dataSource = new MatTableDataSource<UserData>(users);
-    if (this.sort && this.paginator) {
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
-    }
+    setTimeout(() => {
+      if (this.sort && this.paginator) {
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      }
+    });
   }
 
   // Output for actions

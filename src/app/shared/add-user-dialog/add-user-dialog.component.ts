@@ -48,6 +48,7 @@ export class AddUserDialogComponent implements OnInit {
       id: [{ value: '', disabled: true }],
       fullName: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]], // Add or remove pssword?
       role: ['', Validators.required],
       status: ['', Validators.required],
       photoUrl: [''],
@@ -86,5 +87,9 @@ export class AddUserDialogComponent implements OnInit {
   }
   get status() {
     return this.userForm.get('status');
+  }
+
+  get password() {
+    return this.userForm.get('password');
   }
 }

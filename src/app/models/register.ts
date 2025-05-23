@@ -5,4 +5,5 @@ export interface Register {
   email: string;
   name: string;
   lastName: string;
+  status: boolean;
 }

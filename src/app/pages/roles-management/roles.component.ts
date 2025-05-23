@@ -81,6 +81,7 @@ export class RolesComponent implements OnInit {
       id: role.id.toString(),
       fullName: role.name,
       email: '', // Empty string or placeholder
+      password: '', // Empty string or placeholder
       role: role.name as UserData['role'], // Type assertion
       status: 'Active' as UserData['status'], // Default status
       photoUrl: role.photoUrl,
