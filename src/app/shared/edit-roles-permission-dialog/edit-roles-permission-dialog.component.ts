@@ -12,8 +12,10 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { Role } from '../../models/role';
-import { RolesService } from '../../services/roles.service';
+import { Permission } from '../../models/permission'; // Import Permission from models
+import { RolesService } from '../../services/roles.service'; // Import only RolesService
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-edit-roles-permission-dialog',
@@ -34,38 +36,28 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 })
 export class EditRolesPermissionDialogComponent implements OnInit {
   roleId!: number;
-  role?: Role;
-  isLoading = true;
 
-  // Permission groups
-  permissionGroups = [
-    {
-      name: 'User Management',
-      permissions: [
-        { id: 'view_users', name: 'View Users', checked: false },
-        { id: 'create_users', name: 'Create Users', checked: false },
-        { id: 'edit_users', name: 'Edit Users', checked: false },
-        { id: 'delete_users', name: 'Delete Users', checked: false },
-      ],
-    },
-    {
-      name: 'Course Management',
-      permissions: [
-        { id: 'view_courses', name: 'View Courses', checked: false },
-        { id: 'create_courses', name: 'Create Courses', checked: false },
-        { id: 'edit_courses', name: 'Edit Courses', checked: false },
-        { id: 'delete_courses', name: 'Delete Courses', checked: false },
-      ],
-    },
-    {
-      name: 'Report Management',
-      permissions: [
-        { id: 'view_reports', name: 'View Reports', checked: false },
-        { id: 'create_reports', name: 'Create Reports', checked: false },
-        { id: 'export_reports', name: 'Export Reports', checked: false },
-      ],
-    },
-  ];
+  role: Role = {
+    id: 0,
+    name: '',
+    description: '',
+    photoUrl: '',
+    permissions: [],
+  };
+
+  isLoading = true;
+  availablePermissions: Permission[] = [];
+
+  // Dynamic permission groups from API
+  permissionGroups: Array<{
+    name: string;
+    permissions: Array<{
+      id: string;
+      name: string;
+      description: string;
+      checked: boolean;
+    }>;
+  }> = [];
 
   constructor(
     private dialogRef: MatDialogRef<EditRolesPermissionDialogComponent>,
@@ -81,40 +73,52 @@ export class EditRolesPermissionDialogComponent implements OnInit {
   loadRoleData(): void {
     this.isLoading = true;
 
-    // Get role data
-    this.rolesService.getRoleById(this.roleId).subscribe({
-      next: (role) => {
+    // Load both role data and available permissions
+    forkJoin({
+      role: this.rolesService.getRoleById(this.roleId),
+      permissions: this.rolesService.getAllPermissions(),
+      allRolePermissions: this.rolesService.getAllRolesPermissions(),
+    }).subscribe({
+      next: ({ role, permissions, allRolePermissions }) => {
         this.role = role;
+        this.availablePermissions = permissions;
+        this.createPermissionGroups();
 
-        if (!this.role || !this.role.id) {
-          this.dialogRef.close();
-          return;
+        const matching = allRolePermissions.find((r) => r.role === role.name);
+        if (matching) {
+          this.setPermissionsFromArray(matching.permissions);
         }
 
-        // Get role permissions
-        this.rolesService.getRolePermissions(this.roleId).subscribe({
-          next: (permissions) => {
-            // Reset all permissions to unchecked
-            this.resetPermissions();
-
-            // Set checked permissions based on API response
-            this.setPermissionsFromArray(permissions);
-
-            this.isLoading = false;
-          },
-          error: (error) => {
-            console.error('Error loading permissions:', error);
-            this.isLoading = false;
-            this.dialogRef.close();
-          },
-        });
+        this.isLoading = false;
       },
       error: (error) => {
-        console.error('Error loading role:', error);
+        console.error('Error loading data:', error);
         this.isLoading = false;
+
+        // Check if it's an authentication error
+        if (error.status === 401) {
+          alert('Authentication failed. Please log in again.');
+        } else {
+          alert('Failed to load data. Please try again.');
+        }
+
         this.dialogRef.close();
       },
     });
+  }
+
+  createPermissionGroups(): void {
+    this.permissionGroups = [
+      {
+        name: 'Basic Permissions',
+        permissions: this.availablePermissions.map((perm) => ({
+          id: perm.id.toString(), // Use permission name as ID to string
+          name: perm.name,
+          description: perm.description,
+          checked: false,
+        })),
+      },
+    ];
   }
 
   resetPermissions(): void {
@@ -122,6 +126,12 @@ export class EditRolesPermissionDialogComponent implements OnInit {
       group.permissions.forEach((perm) => {
         perm.checked = false;
       });
+    });
+  }
+
+  checkAllPermissions(): void {
+    this.permissionGroups.forEach((group) => {
+      group.permissions.forEach((perm) => (perm.checked = true));
     });
   }
 
@@ -143,6 +153,7 @@ export class EditRolesPermissionDialogComponent implements OnInit {
     }
   }
 
+  // for save permissions button
   savePermissions(): void {
     if (!this.role) return;
 
@@ -154,25 +165,37 @@ export class EditRolesPermissionDialogComponent implements OnInit {
     this.permissionGroups.forEach((group) => {
       group.permissions.forEach((perm) => {
         if (perm.checked) {
-          selectedPermissions.push(perm.id);
+          selectedPermissions.push(perm.id); // permission name like "READ"
         }
       });
     });
 
-    // Use the service to update permissions
-    this.rolesService
-      .updateRolePermissions(this.roleId, selectedPermissions)
-      .subscribe({
-        next: () => {
-          this.isLoading = false;
-          this.dialogRef.close(true);
-        },
-        error: (error) => {
-          console.error('Error saving permissions:', error);
-          this.isLoading = false;
-          this.dialogRef.close(false);
-        },
-      });
+    // First update the role info (name, description)
+    this.rolesService.updateRole(this.role).subscribe({
+      next: () => {
+        console.log('Role info updated successfully');
+
+        this.rolesService
+          .updateRolePermissions(this.roleId, selectedPermissions)
+          .subscribe({
+            next: () => {
+              console.log('All permissions updated successfully');
+              this.isLoading = false;
+              this.dialogRef.close(true);
+            },
+            error: (error) => {
+              console.error('Error saving permissions:', error);
+              this.isLoading = false;
+              alert('Failed to save permissions. Please try again.');
+            },
+          });
+      },
+      error: (error) => {
+        console.error('Error updating role info:', error);
+        this.isLoading = false;
+        alert('Failed to update role information. Please try again.');
+      },
+    });
   }
 
   cancel(): void {

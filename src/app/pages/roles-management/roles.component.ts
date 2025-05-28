@@ -33,7 +33,7 @@ import { RolesService } from '../../services/roles.service';
 })
 export class RolesComponent implements OnInit {
   roles: Role[] = [];
-  displayedColumns: string[] = ['nameId', 'actions'];
+  displayedColumns: string[] = ['nameId', 'description', 'actions'];
 
   // This will store the UserData-compatible objects
   adaptedRolesData: UserData[] = [];
@@ -78,7 +78,7 @@ export class RolesComponent implements OnInit {
   // Convert Role objects to UserData objects
   adaptRolesToUserData(): void {
     this.adaptedRolesData = this.roles.map((role) => {
-      const defaultLastName = 'User';
+      const defaultLastName = '';
       const defaultEmail = `${role.name.toLowerCase()}@example.com`;
       const defaultUsername = `${role.name.toLowerCase()}.${defaultLastName.toLowerCase()}`;
 
@@ -89,9 +89,10 @@ export class RolesComponent implements OnInit {
         username: defaultUsername,
         email: defaultEmail,
         password: '',
-        role: 'Usuario', // Default role
+        role: 'Usuario',
         status: 'Active',
-        photoUrl: role.photoUrl,
+        photoUrl: role.photoUrl || 'assets/images/default-role-icon.svg',
+        originalRole: role,
       };
     });
   }
@@ -101,47 +102,50 @@ export class RolesComponent implements OnInit {
       width: '400px',
     });
 
-    dialogRef.afterClosed().subscribe((roleName: string) => {
-      if (roleName) {
-        this.isLoading = true;
+    dialogRef
+      .afterClosed()
+      .subscribe((result: { name: string; description: string }) => {
+        if (result?.name) {
+          this.isLoading = true;
 
-        // Create new role object
-        const newRole: Role = {
-          id: 0, // The API or mock service will generate the actual ID
-          name: roleName,
-          photoUrl: 'assets/images/default-role-icon.svg',
-        };
+          // Create new role object
+          const newRole: Role = {
+            id: 0, // The API or mock service will generate the actual ID
+            name: result.name,
+            description: result.description || '',
+            photoUrl: 'assets/images/default-role-icon.svg',
+          };
 
-        this.rolesService.createRole(newRole).subscribe({
-          next: (createdRole) => {
-            // Refresh the roles list
-            this.loadRoles();
+          this.rolesService.createRole(newRole).subscribe({
+            next: (createdRole) => {
+              // Refresh the roles list
+              this.loadRoles();
 
-            // Show success message
-            this.snackBar.open(
-              `Role '${createdRole.name}' created successfully`,
-              'Close',
-              {
-                duration: 3000,
-                panelClass: ['success-snackbar'],
-              }
-            );
-          },
-          error: (error) => {
-            console.error('Error creating role:', error);
-            this.isLoading = false;
-            this.snackBar.open(
-              'Failed to create role. Please try again later.',
-              'Close',
-              {
-                duration: 5000,
-                panelClass: ['error-snackbar'],
-              }
-            );
-          },
-        });
-      }
-    });
+              // Show success message
+              this.snackBar.open(
+                `Role '${createdRole.name}' created successfully`,
+                'Close',
+                {
+                  duration: 3000,
+                  panelClass: ['success-snackbar'],
+                }
+              );
+            },
+            error: (error) => {
+              console.error('Error creating role:', error);
+              this.isLoading = false;
+              this.snackBar.open(
+                'Failed to create role. Please try again later.',
+                'Close',
+                {
+                  duration: 5000,
+                  panelClass: ['error-snackbar'],
+                }
+              );
+            },
+          });
+        }
+      });
   }
 
   // Since we're passing UserData objects to the table, we need to extract the original Role
@@ -153,33 +157,35 @@ export class RolesComponent implements OnInit {
     const role = this.findOriginalRole(userData);
     if (role) {
       // edit popup
-      const dialogRef = this.dialog.open(EditRolesPermissionDialogComponent, {
-        width: '800px',
-        data: { roleId: role.id },
-      });
+      setTimeout(() => {
+        const dialogRef = this.dialog.open(EditRolesPermissionDialogComponent, {
+          width: '800px',
+          data: { roleId: role.id },
+        });
 
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          // Handle any updates after dialog closes if needed
-          this.isLoading = true;
+        dialogRef.afterClosed().subscribe((result) => {
+          if (result) {
+            // Handle any updates after dialog closes if needed
+            this.isLoading = true;
 
-          // The dialog component should have already saved the permissions
-          // Just need to refresh our list to show any changes
-          setTimeout(() => {
-            this.loadRoles();
+            // Dialog component should save the permissions
+            // Refresh list to show any changes
+            setTimeout(() => {
+              this.loadRoles();
 
-            // Show success message
-            this.snackBar.open(
-              `Permissions for '${role.name}' updated successfully`,
-              'Close',
-              {
-                duration: 3000,
-                panelClass: ['success-snackbar'],
-              }
-            );
-          }, 500);
-        }
-      });
+              // Show success message
+              this.snackBar.open(
+                `Permissions for '${role.name}' updated successfully`,
+                'Close',
+                {
+                  duration: 3000,
+                  panelClass: ['success-snackbar'],
+                }
+              );
+            }, 500);
+          }
+        });
+      }, 50);
     }
   }
 
@@ -195,8 +201,11 @@ export class RolesComponent implements OnInit {
         if (confirmDelete) {
           this.isLoading = true;
 
-          // Save the role name before deleting
+          // Save the role data before deleting
+          const photoUrl =
+            role.photoUrl || 'assets/images/default-role-icon.svg';
           const roleName = role.name;
+          const id = role.id.toString();
 
           this.rolesService.deleteRole(role.id).subscribe({
             next: () => {

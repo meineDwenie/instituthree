@@ -10,12 +10,24 @@
       required
     />
   </mat-form-field>
+
+  <mat-form-field appearance="outline" style="width: 100%; margin-top: 16px">
+    <mat-label>Description</mat-label>
+    <textarea
+      matInput
+      [(ngModel)]="roleDescription"
+      placeholder="Enter role description"
+      rows="3"
+      style="resize: none"
+    ></textarea>
+  </mat-form-field>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button class="cancel-button" (click)="onCancel()">Cancel</button>
   <button
     mat-raised-button
+    class="save-button"
     color="primary"
     (click)="onSave()"
     [disabled]="!roleName.trim()"

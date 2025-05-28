@@ -1,12 +1,31 @@
-<div class="dialog-container">
-  <h2 mat-dialog-title>Edit Permissions for {{ role?.name }}</h2>
+<div class="dialog-container edit-role-container">
+  <h2 mat-dialog-title>Edit Permissions for {{ role.name }}</h2>
 
+  <!-- Loading Spinner -->
   <div *ngIf="isLoading" class="loading-container">
     <mat-spinner diameter="40"></mat-spinner>
     <p>Loading permissions...</p>
   </div>
 
-  <div *ngIf="!isLoading" mat-dialog-content>
+  <div *ngIf="!isLoading" mat-dialog-content class="role-data-container">
+    <mat-form-field appearance="outline" style="width: 100%">
+      <mat-label>Role Name</mat-label>
+      <input matInput [(ngModel)]="role.name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="width: 100%">
+      <mat-label>Description</mat-label>
+      <textarea
+        matInput
+        rows="3"
+        [(ngModel)]="role.description"
+        style="resize: none"
+      ></textarea>
+    </mat-form-field>
+
+    <hr />
+
+    <!-- Permissions Section -->
     <div class="permissions-container">
       <div *ngFor="let group of permissionGroups" class="permission-group">
         <h3>{{ group.name }}</h3>
@@ -21,6 +40,19 @@
           </mat-checkbox>
         </div>
       </div>
+    </div>
+
+    <div class="permissions-actions">
+      <button
+        mat-stroked-button
+        color="primary"
+        (click)="checkAllPermissions()"
+      >
+        Check All
+      </button>
+      <button mat-stroked-button color="warn" (click)="resetPermissions()">
+        Uncheck All
+      </button>
     </div>
   </div>
 

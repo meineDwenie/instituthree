@@ -102,6 +102,14 @@ export class UserManagementComponent {
           },
           error: (error) => {
             console.error('Error deleting user:', error);
+
+            let errorMsg = 'Failed to update user.';
+            if (error.status === 403) {
+              errorMsg = 'Permission denied. Only admins can update users.';
+            } else if (error.status === 404) {
+              errorMsg = 'User not found.';
+            }
+
             this.snackBar.open(
               'Failed to delete user. Please try again later.',
               'Close',
@@ -152,6 +160,14 @@ export class UserManagementComponent {
       },
       error: (error) => {
         console.error('Error updating user:', error);
+
+        let errorMsg = 'Failed to update user.';
+        if (error.status === 403) {
+          errorMsg = 'Permission denied. Only admins can update users.';
+        } else if (error.status === 404) {
+          errorMsg = 'User not found.';
+        }
+
         this.snackBar.open(
           'Failed to update user. Please try again later.',
           'Close',
@@ -183,13 +199,17 @@ export class UserManagementComponent {
       },
       error: (error) => {
         console.error('Error adding user:', error);
-        this.snackBar.open(
-          'Failed to add user. Please try again later.',
-          'Close',
-          {
-            duration: 5000,
-          }
-        );
+
+        let errorMsg = 'Failed to update user.';
+        if (error.status === 403) {
+          errorMsg = 'Permission denied. Only admins can update users.';
+        } else if (error.status === 404) {
+          errorMsg = 'User not found.';
+        }
+
+        this.snackBar.open(errorMsg, 'Close', {
+          duration: 5000,
+        });
       },
     });
   }

@@ -1,20 +1,30 @@
-<h2 mat-dialog-title>Confirm role deletion</h2>
+<div class="delete-dialog-container">
+  <h2 mat-dialog-title>Confirm Role Deletion</h2>
 
-<mat-dialog-content>
-  <p>Are you sure you want to delete this role?</p>
-  <div class="role-info">
-    <img
-      [src]="role.photoUrl"
-      alt="Role"
-      width="40"
-      height="40"
-      style="border-radius: 50%"
-    />
-    <span>{{ role.name }}</span>
+  <div mat-dialog-content>
+    <p class="confirmation-message">
+      Are you sure you want to delete this role?
+    </p>
+
+    <div class="role-info-box">
+      <div class="role-details">
+        <img
+          [src]="role.photoUrl || 'assets/images/default-role-icon.svg'"
+          alt="Role photo"
+          class="role-avatar"
+        />
+        <div class="role-text">
+          <p class="role-name">{{ role.name }}</p>
+          <p class="role-id">ID: {{ role.id }}</p>
+        </div>
+      </div>
+    </div>
   </div>
-</mat-dialog-content>
 
-<mat-dialog-actions align="end">
-  <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-raised-button color="warn" (click)="onDelete()">Delete</button>
-</mat-dialog-actions>
+  <div mat-dialog-actions align="end">
+    <button class="cancel-button" mat-button (click)="onCancel()">
+      Cancel
+    </button>
+    <button mat-raised-button color="warn" (click)="onDelete()">Delete</button>
+  </div>
+</div>

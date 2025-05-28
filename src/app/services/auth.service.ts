@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { User, AuthRequest, LoginRequest } from '../models/user';
 import { Router } from '@angular/router';
@@ -102,7 +102,7 @@ export class AuthService {
     if (environment.useMockData) {
       return this.mockRegister(userData);
     } else {
-      // Make sure we're including status in the request
+      // To include status in the request
       const registerData = {
         ...userData,
         status: userData.status !== undefined ? userData.status : true, // Include status with default true if not provided
@@ -111,13 +111,10 @@ export class AuthService {
       return this.http
         .post<User>(`${this.baseUrl}/register`, registerData)
         .pipe(
-          map((user) => {
-            // Store token and user after registration
-            //localStorage.setItem('token', response.token);
-            localStorage.setItem('currentUser', JSON.stringify(user));
-            this.currentUserSubject.next(user);
-            return user;
-          }),
+          // After registration, Login to obtain token
+          switchMap(() =>
+            this.login({ email: userData.email, password: userData.password })
+          ),
           catchError((error) => {
             console.error('Registration error wtih API', error);
 

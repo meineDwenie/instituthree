@@ -22,6 +22,7 @@ import { Role } from '../../models/role';
 })
 export class AddRoleDialogComponent {
   roleName: string = '';
+  roleDescription: string = '';
 
   constructor(public dialogRef: MatDialogRef<AddRoleDialogComponent>) {}
 
@@ -31,7 +32,10 @@ export class AddRoleDialogComponent {
 
   onSave(): void {
     if (this.roleName.trim()) {
-      this.dialogRef.close(this.roleName);
+      this.dialogRef.close({
+        name: this.roleName.trim(),
+        description: this.roleDescription.trim(),
+      });
     } else {
       alert('Role name cannot be empty');
     }

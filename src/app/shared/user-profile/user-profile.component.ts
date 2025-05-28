@@ -60,7 +60,11 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   logout(): void {
     this.authService.logout();
     console.log('Logging out via user profile dropdown ...');
-    this.router.navigate(['/authentication']);
+
+    this.router.navigate(['/authentication']).then((success) => {
+      console.log('Navigation success?', success);
+      location.reload(); // Brute-force reload — replaces the current view entirely
+    });
   }
 
   navigateToLogin(): void {

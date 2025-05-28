@@ -60,7 +60,11 @@ export class LoginFormComponent {
         next: (user) => {
           console.log('Login successful:', user);
           // Navigate to user-management page after successful login
-          this.router.navigate(['/user-management']);
+          this.router
+            .navigateByUrl('/', { skipLocationChange: true })
+            .then(() => {
+              this.router.navigate(['/user-management']);
+            });
         },
         error: (error) => {
           console.error('Login failed:', error);

@@ -12,11 +12,36 @@ import { Role } from '../models/role';
 export class MockRolesService {
   // Mock roles data
   private mockRoles: Role[] = [
-    { id: 1, name: 'Admin', photoUrl: 'assets/images/roles/admin.png' },
-    { id: 2, name: 'Professor', photoUrl: 'assets/images/roles/professor.png' },
-    { id: 3, name: 'Student', photoUrl: 'assets/images/roles/student.png' },
-    { id: 4, name: 'Delegado', photoUrl: 'assets/images/roles/delegado.png' },
-    { id: 5, name: 'Tutor', photoUrl: 'assets/images/roles/tutor.png' },
+    {
+      id: 1,
+      name: 'Admin',
+      description: 'Administrador del sistema',
+      photoUrl: 'assets/images/roles/admin.png',
+    },
+    {
+      id: 2,
+      name: 'Professor',
+      description: 'Profesor de cursos',
+      photoUrl: 'assets/images/roles/professor.png',
+    },
+    {
+      id: 3,
+      name: 'Student',
+      description: 'Estudiante registrado',
+      photoUrl: 'assets/images/roles/student.png',
+    },
+    {
+      id: 4,
+      name: 'Delegado',
+      description: 'Representante de grupo',
+      photoUrl: 'assets/images/roles/delegado.png',
+    },
+    {
+      id: 5,
+      name: 'Tutor',
+      description: 'Tutor académico',
+      photoUrl: 'assets/images/roles/tutor.png',
+    },
   ];
 
   // Sample permission structure for each role

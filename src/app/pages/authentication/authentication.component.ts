@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginFormComponent } from '../../shared/login-form/login-form.component';
 import { RegisterFormComponent } from '../../shared/register-form/register-form.component';
@@ -18,7 +18,7 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './authentication.component.html',
   styleUrl: './authentication.component.scss',
 })
-export class AuthenticationComponent {
+export class AuthenticationComponent implements OnInit {
   isRegisterMode = false;
 
   constructor(public auth: AuthService) {

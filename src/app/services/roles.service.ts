@@ -1,9 +1,14 @@
-import { HttpClient } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, of, tap } from 'rxjs';
+import { Observable, catchError, of, tap, throwError } from 'rxjs';
 import { Role } from '../models/role';
 import { environment } from '../../environments/environment';
 import { MockRolesService } from './mock-roles.service';
+import { Permission } from '../models/permission';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +18,7 @@ export class RolesService {
   private useMockData: boolean;
 
   constructor(private http: HttpClient, private mockService: MockRolesService) {
-    // Set up the service based on environment configuration
+    // Set up environment configuration
     this.baseUrl = environment.apiUrl;
     this.useMockData = environment.useMockData;
 
@@ -24,6 +29,18 @@ export class RolesService {
     );
   }
 
+  getAuthHeaders(): HttpHeaders | null {
+    const token = localStorage.getItem('token');
+    //console.log('Token in localStorage:', token);
+
+    if (!token) return null;
+
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+  }
+
   // Get all roles
   getRoles(): Observable<Role[]> {
     if (this.useMockData) {
@@ -31,7 +48,12 @@ export class RolesService {
       return this.mockService.getRoles();
     }
 
-    return this.http.get<Role[]>(`${this.baseUrl}/roles`).pipe(
+    const headers = this.getAuthHeaders();
+    if (!headers) {
+      return throwError(() => new Error('Authentication token not found.'));
+    }
+
+    return this.http.get<Role[]>(`${this.baseUrl}/roles`, { headers }).pipe(
       tap((roles) => console.log('Roles fetched:', roles)),
       catchError(this.handleError<Role[]>('getRoles', []))
     );
@@ -39,13 +61,37 @@ export class RolesService {
 
   // Get a single role by ID
   getRoleById(id: number): Observable<Role> {
+    // validate ID
+    if (!id || id <= 0) {
+      console.error('Invalid role ID provided:', id);
+      return throwError(() => new Error(`Invalid role ID: ${id}`));
+    }
+
     if (this.useMockData) {
       return this.mockService.getRoleById(id);
     }
 
-    return this.http.get<Role>(`${this.baseUrl}/roles/${id}`).pipe(
-      tap((role) => console.log(`Role fetched with id=${id}`)),
-      catchError(this.handleError<Role>('getRoleById'))
+    const headers = this.getAuthHeaders();
+    if (!headers) {
+      console.error('No authentication headers available');
+      return throwError(() => new Error('Authentication token not found.'));
+    }
+
+    console.log('Calling getRoleById with headers:', headers);
+
+    // {id} then role ID
+    const url = `${this.baseUrl}/roles/${id}?id=${id}`;
+
+    console.log('Making API call to:', url);
+    console.log('Headers:', headers);
+
+    return this.http.get<Role>(url, { headers }).pipe(
+      tap((role) => {
+        console.log('Role fetched successfully:', role);
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => error);
+      })
     );
   }
 
@@ -55,50 +101,159 @@ export class RolesService {
       return this.mockService.createRole(role);
     }
 
-    return this.http.post<Role>(`${this.baseUrl}/roles`, role).pipe(
+    const headers = this.getAuthHeaders();
+    if (!headers) {
+      return throwError(() => new Error('Authentication token not found.'));
+    }
+
+    // Query string parameters
+    const params = new URLSearchParams({
+      id: '0',
+      name: role.name,
+      description: role.description,
+    });
+
+    const url = `${this.baseUrl}/roles?${params.toString()}`;
+    //console.log('Create role URL:', url);
+
+    return this.http.put<Role>(url, null, { headers }).pipe(
       tap((newRole) => console.log('Role created:', newRole)),
-      catchError(this.handleError<Role>('createRole'))
+      catchError((error) => {
+        console.error('Error creating role:', error);
+        return throwError(() => error);
+      })
     );
   }
 
   // Update an existing role
   updateRole(role: Role): Observable<Role> {
+    console.log('Updating role:', role);
+
     if (this.useMockData) {
       return this.mockService.updateRole(role);
     }
 
-    return this.http.put<Role>(`${this.baseUrl}/roles/${role.id}`, role).pipe(
-      tap((_) => console.log(`Role updated with id = ${role.id}`)),
-      catchError(this.handleError<Role>('updateRole'))
-    );
+    const headers = this.getAuthHeaders();
+    if (!headers) {
+      return throwError(() => new Error('Authentication token not found.'));
+    }
+
+    // Query parameters
+    const params = new URLSearchParams({
+      id: role.id.toString(),
+      name: role.name,
+      description: role.description,
+    });
+
+    const url = `${this.baseUrl}/roles?${params.toString()}`;
+    console.log('Update role URL:', url);
+
+    return this.http
+      .put<Role>(`${this.baseUrl}/roles/${role.id}`, role, { headers })
+      .pipe(
+        tap((_) => console.log(`Role updated with id = ${role.id}`)),
+        catchError((error) => {
+          console.error('Error updating role:', error);
+          return throwError(() => error);
+        })
+      );
   }
 
   // Delete a role
   deleteRole(id: number): Observable<any> {
+    console.log('Deleting role with ID:', id);
+
     if (this.useMockData) {
       return this.mockService.deleteRole(id);
     }
 
-    return this.http.delete(`${this.baseUrl}/roles/${id}`).pipe(
+    const headers = this.getAuthHeaders();
+    if (!headers) {
+      return throwError(() => new Error('Authentication token not found.'));
+    }
+
+    const url = `${this.baseUrl}/roles/${id}?id=${id}`;
+    console.log('DELETE URL:', url);
+
+    return this.http.delete(url, { headers }).pipe(
       tap((_) => console.log(`Role deleted with id=${id}`)),
-      catchError(this.handleError<any>('deleteRole'))
+      catchError((error) => {
+        console.error('Error deleting role:', error);
+        return throwError(() => error);
+      })
     );
   }
 
-  // Get permissions for a specific role
-  getRolePermissions(roleId: number): Observable<string[]> {
+  // Get all permissions
+  getAllPermissions(): Observable<Permission[]> {
+    console.log('Getting all permissions');
+
     if (this.useMockData) {
-      return this.mockService.getRolePermissions(roleId);
+      // Return mock permissions that match your API structure
+      return of([
+        { id: 1, name: 'READ', description: 'Permiso de lectura' },
+        { id: 2, name: 'WRITE', description: 'Permiso de escritura' },
+      ]);
+    }
+
+    const headers = this.getAuthHeaders();
+    if (!headers) {
+      return throwError(() => new Error('Authentication token not found.'));
     }
 
     return this.http
-      .get<string[]>(`${this.baseUrl}/roles/${roleId}/permissions`)
+      .get<Permission[]>(`${this.baseUrl}/permissions`, { headers })
       .pipe(
         tap((permissions) =>
-          console.log(`Permissions fetched for role id=${roleId}`, permissions)
+          console.log('All permissions fetched:', permissions)
         ),
-        catchError(this.handleError<string[]>('getRolePermissions', []))
+        catchError((error) => {
+          console.error('Error getting all permissions:', error);
+          return throwError(() => error);
+        })
       );
+  }
+
+  getAllRolesPermissions(): Observable<
+    { role: string; permissions: string[] }[]
+  > {
+    if (this.useMockData) {
+      return of([]);
+    }
+
+    const headers = this.getAuthHeaders();
+    if (!headers) {
+      return throwError(() => new Error('Authentication token not found.'));
+    }
+
+    return this.http.get<{ role: string; permissions: string[] }[]>(
+      `${this.baseUrl}/roles/rolepermissions`,
+      { headers }
+    );
+  }
+
+  assignPermissionToRole(
+    roleId: number,
+    permissionId: string
+  ): Observable<any> {
+    const headers = this.getAuthHeaders();
+    if (!headers) {
+      return throwError(() => new Error('Authentication token not found.'));
+    }
+
+    const url = `${this.baseUrl}/roles/${roleId}/permissions/${permissionId}`;
+    return this.http.put(url, null, { headers }).pipe(
+      tap(() =>
+        console.log(`Permission ${permissionId} assigned to role ${roleId}`)
+      ),
+      catchError((error) => {
+        console.error(
+          `Error assigning permission ${permissionId} to role ${roleId}`,
+          error
+        );
+        return throwError(() => error);
+      })
+    );
   }
 
   // Update permissions for a role
@@ -106,15 +261,34 @@ export class RolesService {
     roleId: number,
     permissions: string[]
   ): Observable<any> {
+    console.log(
+      'Updating permissions for role ID:',
+      roleId,
+      'Permissions:',
+      permissions
+    );
+
     if (this.useMockData) {
       return this.mockService.updateRolePermissions(roleId, permissions);
     }
 
+    const headers = this.getAuthHeaders();
+    if (!headers) {
+      return throwError(() => new Error('Authentication token not found.'));
+    }
+
     return this.http
-      .put(`${this.baseUrl}/roles/${roleId}/permissions`, { permissions })
+      .put(
+        `${this.baseUrl}/roles/${roleId}/permissions`,
+        { permissions },
+        { headers }
+      )
       .pipe(
         tap((_) => console.log(`Permissions updated for role id=${roleId}`)),
-        catchError(this.handleError<any>('updateRolePermissions'))
+        catchError((error) => {
+          console.error('Error updating role permissions:', error);
+          return throwError(() => error);
+        })
       );
   }
 
@@ -122,6 +296,24 @@ export class RolesService {
   setUseMockData(useMock: boolean): void {
     this.useMockData = useMock;
     console.log(`Switched to ${useMock ? 'MOCK' : 'REAL'} data source`);
+  }
+
+  // Test endpoint connectivity
+  testConnection(): Observable<any> {
+    const headers = this.getAuthHeaders();
+    if (!headers) {
+      return throwError(() => new Error('Authentication token not found.'));
+    }
+
+    console.log('Testing connection to:', `${this.baseUrl}/roles`);
+
+    return this.http.get(`${this.baseUrl}/roles`, { headers }).pipe(
+      tap((response) => console.log('Connection test successful:', response)),
+      catchError((error) => {
+        console.error('Connection test failed:', error);
+        return throwError(() => error);
+      })
+    );
   }
 
   // Error handling

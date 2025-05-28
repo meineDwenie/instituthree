@@ -1,14 +1,81 @@
-.role-info {
+.delete-dialog-container {
+  padding: 6px 24px;
+}
+
+h2 {
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.confirmation-message {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.role-info-box {
+  border: 1px solid #000000;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #f0eeee;
+  margin-bottom: 16px;
+}
+
+.role-details {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-top: 16px;
-  padding: 12px;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+}
 
-  span {
-    font-weight: 500;
-  }
+.role-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 16px;
+  border: 1px solid #000000;
+}
+
+.role-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.role-name {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 0 4px 0;
+}
+
+.role-id {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+mat-dialog-actions {
+  padding: 16px 0 0 0;
+  margin-bottom: 0;
+}
+
+.mat-mdc-raised-button:not(:disabled) {
+  color: white;
+  background-color: #ec6666;
+  border-radius: 10px;
+  padding: 0 40px;
+}
+
+.mat-mdc-raised-button:not(:disabled):hover {
+  background-color: #ec4e4e;
+}
+
+.cancel-button {
+  background-color: transparent;
+  color: #f99191 !important;
+  padding: 0 30px;
+  border-radius: 10px;
+}
+
+.cancel-button:hover {
+  color: #db6b6b !important;
+  background-color: #ffeeee !important;
 }

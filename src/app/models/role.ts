@@ -1,6 +1,7 @@
 export interface Role {
   id: number;
   name: string;
-  photoUrl: string;
+  description: string;
+  photoUrl?: string;
   permissions?: string[];
 }

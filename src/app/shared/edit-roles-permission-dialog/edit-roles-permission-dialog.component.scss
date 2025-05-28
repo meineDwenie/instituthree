@@ -1,30 +1,16 @@
 .edit-role-container {
-  padding: 20px;
+  padding: 10px;
   max-width: 800px;
+  min-height: 400px; /* Increased height for the dialog */
 
-  h1 {
-    margin-bottom: 20px;
-    color: #333;
+  h2 {
+    margin-bottom: 20px; /* More spacing under the title */
+    font-size: 1.8rem;
+    font-weight: 500;
   }
 
-  .role-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-
-    img {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      margin-right: 15px;
-      object-fit: cover;
-    }
-
-    h2 {
-      margin: 0;
-      font-size: 1.5rem;
-      font-weight: 500;
-    }
+  .role-data-container {
+    margin-top: 24px; /* Extra space between h2 and fields */
   }
 
   .permissions-container {
@@ -32,17 +18,12 @@
     flex-direction: column;
     gap: 16px;
     margin-bottom: 24px;
+  }
 
-    mat-card {
-      margin-bottom: 0;
-    }
-
-    .permissions-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 10px;
-      padding: 10px 0;
-    }
+  .permissions-actions {
+    display: flex;
+    gap: 16px; /* Space between buttons */
+    margin-top: 24px; /* Space from the permissions group above */
   }
 
   .actions {
@@ -62,4 +43,33 @@ p {
   justify-content: center;
   align-items: center;
   height: 100%;
+}
+
+.mat-mdc-raised-button:not(:disabled) {
+  color: white;
+  background-color: #5884ac;
+  border-radius: 10px;
+  padding: 0 40px;
+}
+
+.cancel-button {
+  color: #5884ac !important;
+  padding: 0 20px;
+  border-radius: 10px;
+}
+
+.cancel-button:hover {
+  background-color: #f4faff !important;
+}
+
+/// RESPONSIVE STYLES
+@media (max-width: 768px) {
+  .edit-role-container {
+    padding: 16px;
+    min-height: 500px;
+  }
+
+  .permissions-actions {
+    flex-direction: column;
+  }
 }

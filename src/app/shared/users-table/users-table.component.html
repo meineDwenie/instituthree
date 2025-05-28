@@ -61,6 +61,14 @@
       </td>
     </ng-container>
 
+    <!-- Description Column (for Roles) -->
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+      <td mat-cell *matCellDef="let user">
+        {{ user.originalRole?.description || "—" }}
+      </td>
+    </ng-container>
+
     <!-- Actions Column -->
     <ng-container matColumnDef="actions" stickyEnd>
       <th mat-header-cell *matHeaderCellDef>Action</th>

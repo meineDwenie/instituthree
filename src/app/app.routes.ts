@@ -11,18 +11,7 @@ export const routes: Routes = [
         (m) => m.AuthenticationComponent
       ),
   },
-  {
-    path: 'login',
-    loadComponent: () =>
-      import('./pages/login/login.component').then((m) => m.LoginComponent),
-  },
-  {
-    path: 'register',
-    loadComponent: () =>
-      import('./pages/register/register.component').then(
-        (m) => m.RegisterComponent
-      ),
-  },
+
   // Protected routes that require authentication
   {
     path: 'user-management',
@@ -37,14 +26,6 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/roles-management/roles.component').then(
         (m) => m.RolesComponent
-      ),
-    canActivate: [AuthGuard], // AuthGuard here
-  },
-  {
-    path: 'edit-roles/:id',
-    loadComponent: () =>
-      import('./pages/edit-roles/edit-roles.component').then(
-        (m) => m.EditRolesComponent
       ),
     canActivate: [AuthGuard], // AuthGuard here
   },
