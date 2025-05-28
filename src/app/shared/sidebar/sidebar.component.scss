@@ -4,7 +4,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 15%;
+  width: 250px; //15%
   min-width: 260px;
   padding: 0 20px 0 20px;
   height: 100vh;
@@ -17,6 +17,8 @@
   overflow-y: auto;
   justify-content: space-between;
   box-shadow: 10px 10px 50px -50px rgb(154, 166, 170);
+
+  transition: width 0.3s ease;
 }
 
 .higher-part {
@@ -167,4 +169,81 @@ a.nav-link.settings-link {
 
 .logout:hover i {
   color: #f7e8e8;
+}
+
+/* Collapsed sidebar styles */
+.sidebar.collapsed {
+  width: 60px;
+  min-width: 60px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.sidebar.collapsed .bi {
+  margin-right: 0;
+  text-align: center;
+  width: 100%;
+}
+
+.sidebar.collapsed .bi:hover {
+  background-color: transparent !important;
+}
+
+/* Hide text when collapsed */
+.sidebar.collapsed .nav-link span,
+.sidebar.collapsed .gestion-label span,
+.sidebar.collapsed .settings-link span {
+  opacity: 0;
+  visibility: hidden;
+  width: 0;
+  display: inline-block;
+  transition: opacity 0.2s ease, width 0.2s ease;
+}
+
+/* Show text when expanded */
+.sidebar .nav-link span,
+.sidebar .gestion-label span,
+.sidebar .settings-link span {
+  opacity: 1;
+  visibility: visible;
+  display: inline-block;
+  width: auto;
+  transition: opacity 0.2s ease, width 0.2s ease;
+}
+
+/* Toggle button styling */
+.toggle-btn {
+  position: absolute;
+  top: 90px;
+  right: 30px;
+  //background-color: #ffffff;
+  background-color: transparent;
+  border: 1px solid #ddd;
+  border-radius: 20%;
+  z-index: 2000;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.toggle-btn i.bi {
+  font-size: 18px;
+  color: #333;
+  margin: 0;
+  line-height: 1;
+}
+
+.toggle-btn:hover {
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+.sidebar.collapsed .toggle-btn {
+  right: 20px;
+  background-color: #ffffff;
 }

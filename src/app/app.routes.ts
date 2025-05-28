@@ -12,37 +12,41 @@ export const routes: Routes = [
       ),
   },
 
-  // Protected routes that require authentication
+  // Layout route for protected pages
   {
-    path: 'user-management',
+    path: '',
+    canActivate: [AuthGuard],
     loadComponent: () =>
-      import('./pages/user-management/user-management.component').then(
-        (m) => m.UserManagementComponent
-      ),
-    canActivate: [AuthGuard], // AuthGuard here
-  },
-  {
-    path: 'roles-management',
-    loadComponent: () =>
-      import('./pages/roles-management/roles.component').then(
-        (m) => m.RolesComponent
-      ),
-    canActivate: [AuthGuard], // AuthGuard here
-  },
-  {
-    path: 'permissions',
-    loadComponent: () =>
-      import('./pages/permissions/permissions.component').then(
-        (m) => m.PermissionsComponent
-      ),
-    canActivate: [AuthGuard], // AuthGuard here
-  },
-  {
-    path: 'edit-user-dialog',
-    loadComponent: () =>
-      import('./shared/edit-user-dialog/edit-user-dialog.component').then(
-        (m) => m.EditUserDialogComponent
-      ),
-    canActivate: [AuthGuard], // AuthGuard here
+      import('./pages/layout/layout.component').then((m) => m.LayoutComponent),
+    children: [
+      {
+        path: 'user-management',
+        loadComponent: () =>
+          import('./pages/user-management/user-management.component').then(
+            (m) => m.UserManagementComponent
+          ),
+      },
+      {
+        path: 'roles-management',
+        loadComponent: () =>
+          import('./pages/roles-management/roles.component').then(
+            (m) => m.RolesComponent
+          ),
+      },
+      {
+        path: 'permissions',
+        loadComponent: () =>
+          import('./pages/permissions/permissions.component').then(
+            (m) => m.PermissionsComponent
+          ),
+      },
+      {
+        path: 'edit-user-dialog',
+        loadComponent: () =>
+          import('./shared/edit-user-dialog/edit-user-dialog.component').then(
+            (m) => m.EditUserDialogComponent
+          ),
+      },
+    ],
   },
 ];

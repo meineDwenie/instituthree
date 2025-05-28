@@ -1,5 +1,5 @@
 <div class="dialog-container edit-role-container">
-  <h2 mat-dialog-title>Edit Permissions for {{ role.name }}</h2>
+  <h2 mat-dialog-title>Edit Permissions for {{ role.name || "Role" }}</h2>
 
   <!-- Loading Spinner -->
   <div *ngIf="isLoading" class="loading-container">
@@ -8,63 +8,111 @@
   </div>
 
   <div *ngIf="!isLoading" mat-dialog-content class="role-data-container">
-    <mat-form-field appearance="outline" style="width: 100%">
-      <mat-label>Role Name</mat-label>
-      <input matInput [(ngModel)]="role.name" />
-    </mat-form-field>
+    <!-- Role Information -->
+    <div class="role-info-section">
+      <mat-form-field
+        appearance="outline"
+        style="width: 100%; margin-bottom: 16px"
+      >
+        <mat-label>Role Name</mat-label>
+        <input matInput [(ngModel)]="role.name" placeholder="Enter role name" />
+      </mat-form-field>
 
-    <mat-form-field appearance="outline" style="width: 100%">
-      <mat-label>Description</mat-label>
-      <textarea
-        matInput
-        rows="3"
-        [(ngModel)]="role.description"
-        style="resize: none"
-      ></textarea>
-    </mat-form-field>
-
-    <hr />
-
-    <!-- Permissions Section -->
-    <div class="permissions-container">
-      <div *ngFor="let group of permissionGroups" class="permission-group">
-        <h3>{{ group.name }}</h3>
-        <div class="permission-list">
-          <mat-checkbox
-            *ngFor="let permission of group.permissions"
-            [(ngModel)]="permission.checked"
-            color="primary"
-            class="permission-checkbox"
-          >
-            {{ permission.name }}
-          </mat-checkbox>
-        </div>
-      </div>
+      <mat-form-field
+        appearance="outline"
+        style="width: 100%; margin-bottom: 16px"
+      >
+        <mat-label>Description</mat-label>
+        <textarea
+          matInput
+          rows="3"
+          [(ngModel)]="role.description"
+          placeholder="Enter role description"
+          style="resize: none"
+        ></textarea>
+      </mat-form-field>
     </div>
 
-    <div class="permissions-actions">
-      <button
-        mat-stroked-button
-        color="primary"
-        (click)="checkAllPermissions()"
-      >
-        Check All
-      </button>
-      <button mat-stroked-button color="warn" (click)="resetPermissions()">
-        Uncheck All
-      </button>
+    <hr style="margin: 20px 0" />
+
+    <!-- Permissions Section -->
+    <div class="permissions-section">
+      <h3 style="margin-bottom: 16px; color: #1976d2">Permissions</h3>
+
+      <!-- Permission Groups -->
+      <div *ngIf="permissionGroups.length > 0" class="permissions-container">
+        <div *ngFor="let group of permissionGroups" class="permission-group">
+          <h4 class="group-title">{{ group.name }}</h4>
+          <div class="permission-list">
+            <mat-checkbox
+              *ngFor="
+                let permission of group.permissions;
+                trackBy: trackByPermissionId
+              "
+              [(ngModel)]="permission.checked"
+              color="primary"
+              class="permission-checkbox"
+            >
+              <span class="permission-name">{{ permission.name }}</span>
+              <span
+                class="permission-description"
+                *ngIf="permission.description"
+              >
+                - {{ permission.description }}
+              </span>
+            </mat-checkbox>
+          </div>
+        </div>
+      </div>
+
+      <!-- No Permissions Available -->
+      <div *ngIf="permissionGroups.length === 0" class="no-permissions">
+        <p>No permissions available</p>
+      </div>
+
+      <!-- Bulk Actions -->
+      <div class="permissions-actions" *ngIf="permissionGroups.length > 0">
+        <button
+          mat-stroked-button
+          color="primary"
+          (click)="checkAllPermissions()"
+          type="button"
+        >
+          Check All
+        </button>
+        <button
+          mat-stroked-button
+          color="warn"
+          (click)="resetPermissions()"
+          type="button"
+        >
+          Uncheck All
+        </button>
+      </div>
     </div>
   </div>
 
-  <div mat-dialog-actions align="end">
-    <button mat-button (click)="cancel()">Cancel</button>
+  <!-- Dialog Actions -->
+  <div mat-dialog-actions align="end" class="dialog-actions">
+    <button
+      mat-button
+      class="cancel-button"
+      type="button"
+      (click)="cancel()"
+      [disabled]="isLoading"
+    >
+      Cancel
+    </button>
+
     <button
       mat-raised-button
       color="primary"
       (click)="savePermissions()"
       [disabled]="isLoading"
+      type="button"
     >
-      Save Permissions
+      <span *ngIf="isLoading">Saving...</span>
+      <span *ngIf="!isLoading">Save Permissions</span>
     </button>
   </div>
 </div>

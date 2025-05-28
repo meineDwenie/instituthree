@@ -1,0 +1,35 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 100px);
+}
+
+app-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  z-index: 999;
+}
+
+app-header-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px; // match the height from mat-toolbar
+  z-index: 1000;
+}
+
+.main-content {
+  margin-left: 330px;
+  margin-right: 30px;
+  padding: 100px 20px;
+  transition: margin-left 0.3s ease;
+  flex: 1;
+  background-color: #f6f6f6;
+}
+
+.main-content.sidebar-collapsed {
+  margin-left: 100px;
+}

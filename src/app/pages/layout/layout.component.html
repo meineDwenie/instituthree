@@ -1,0 +1,6 @@
+<app-header-nav></app-header-nav>
+<app-sidebar></app-sidebar>
+
+<main class="main-content" [class.sidebar-collapsed]="!isSidebarOpen">
+  <router-outlet></router-outlet>
+</main>

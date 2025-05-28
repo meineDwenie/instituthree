@@ -1,13 +1,23 @@
-<div class="sidebar p-4">
+<div class="sidebar p-4" [class.collapsed]="!isSidebarOpen">
+  <!-- TOGGLE BUTTON -->
+  <button class="toggle-btn" (click)="toggleSidebar()">
+    <i
+      class="bi"
+      [ngClass]="{
+        'bi-layout-sidebar-inset-reverse': !isSidebarOpen,
+        'bi-layout-sidebar-inset': isSidebarOpen
+      }"
+    ></i>
+  </button>
+
   <div class="higher-part">
-    <!-- Top Label -->
     <div>
       <p class="gestion-label">
-        <i class="bi bi-grid-fill me-2"></i> Admin Management
+        <i class="bi bi-grid-fill me-2"></i>
+        <span *ngIf="isSidebarOpen">Admin Management</span>
       </p>
     </div>
 
-    <!-- Main Navigation Links -->
     <div class="nav-links">
       <ul class="nav flex-column gap-2 mt-3">
         <li>
@@ -15,36 +25,42 @@
             routerLink="/user-management"
             routerLinkActive="active"
             class="nav-link ps-4"
-            ><i class="bi bi-person-badge me-2"></i> Users Registry</a
           >
+            <i class="bi bi-person-badge me-2"></i>
+            <span *ngIf="isSidebarOpen">Users Registry</span>
+          </a>
         </li>
         <li>
           <a
             routerLink="/roles-management"
             routerLinkActive="active"
             class="nav-link ps-4"
-            ><i class="bi bi-person-lock me-2"></i> Roles</a
           >
+            <i class="bi bi-person-lock me-2"></i>
+            <span *ngIf="isSidebarOpen">Roles</span>
+          </a>
         </li>
         <li>
           <a
             routerLink="/permissions"
             routerLinkActive="active"
             class="nav-link ps-4"
-            ><i class="bi bi-shield-check me-2"></i> Permissions</a
           >
+            <i class="bi bi-shield-check me-2"></i>
+            <span *ngIf="isSidebarOpen">Permissions</span>
+          </a>
         </li>
       </ul>
     </div>
   </div>
 
-  <!-- Bottom Section -->
   <div class="mt-auto pt-5">
-    <ul nav flex-column gap-2 mt-3>
+    <ul class="nav flex-column gap-2 mt-3">
       <li>
-        <a routerLink="/settings" class="nav-link settings-link"
-          ><i class="btn-config bi-gear-fill me-2"></i> Settings</a
-        >
+        <a routerLink="/settings" class="nav-link settings-link">
+          <i class="btn-config bi-gear-fill me-2"></i>
+          <span *ngIf="isSidebarOpen">Settings</span>
+        </a>
       </li>
     </ul>
   </div>

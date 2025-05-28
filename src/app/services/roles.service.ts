@@ -138,16 +138,6 @@ export class RolesService {
       return throwError(() => new Error('Authentication token not found.'));
     }
 
-    // Query parameters
-    const params = new URLSearchParams({
-      id: role.id.toString(),
-      name: role.name,
-      description: role.description,
-    });
-
-    const url = `${this.baseUrl}/roles?${params.toString()}`;
-    console.log('Update role URL:', url);
-
     return this.http
       .put<Role>(`${this.baseUrl}/roles/${role.id}`, role, { headers })
       .pipe(
@@ -214,11 +204,15 @@ export class RolesService {
       );
   }
 
+  // Get all roles with their permissions
   getAllRolesPermissions(): Observable<
     { role: string; permissions: string[] }[]
   > {
     if (this.useMockData) {
-      return of([]);
+      return of([
+        { role: 'Admin', permissions: ['READ', 'WRITE', 'DELETE'] },
+        { role: 'User', permissions: ['READ'] },
+      ]);
     }
 
     const headers = this.getAuthHeaders();
@@ -226,15 +220,50 @@ export class RolesService {
       return throwError(() => new Error('Authentication token not found.'));
     }
 
-    return this.http.get<{ role: string; permissions: string[] }[]>(
-      `${this.baseUrl}/roles/rolepermissions`,
-      { headers }
-    );
+    return this.http
+      .get<{ role: string; permissions: string[] }[]>(
+        `${this.baseUrl}/roles/rolepermissions`,
+        { headers }
+      )
+      .pipe(
+        tap((data) => console.log('All roles permissions:', data)),
+        catchError((error) => {
+          console.error('Error getting all roles permissions:', error);
+          return of([]); // Return empty array as fallback
+        })
+      );
+  }
+
+  // Get permission for specific role - FIXED: Using PUT method as per API docs
+  getRolePermissions(roleId: number): Observable<string[]> {
+    if (this.useMockData) {
+      return this.mockService.getRolePermissions(roleId);
+    }
+
+    const headers = this.getAuthHeaders();
+    if (!headers) {
+      return throwError(() => new Error('Authentication token not found.'));
+    }
+
+    // According to your API docs, this should be a PUT request
+    return this.http
+      .put<string[]>(`${this.baseUrl}/roles/${roleId}/permissions`, null, {
+        headers,
+      })
+      .pipe(
+        tap((permissions) =>
+          console.log(`Permissions for role ${roleId}:`, permissions)
+        ),
+        catchError((error) => {
+          console.error(`Error getting permissions for role ${roleId}:`, error);
+          return throwError(() => error);
+        })
+      );
   }
 
   assignPermissionToRole(
     roleId: number,
-    permissionId: string
+    permissionId: number
   ): Observable<any> {
     const headers = this.getAuthHeaders();
     if (!headers) {
@@ -256,16 +285,51 @@ export class RolesService {
     );
   }
 
-  // Update permissions for a role
+  // Assign role with multiple permissions
+  assignMultiplePermissionsToRole(
+    roleId: number,
+    permissionIds: number[]
+  ): Observable<any> {
+    if (this.useMockData) {
+      return this.mockService.updateRolePermissions(
+        roleId,
+        permissionIds.map((id) => id.toString())
+      );
+    }
+
+    const headers = this.getAuthHeaders();
+    if (!headers) {
+      return throwError(() => new Error('Authentication token not found.'));
+    }
+
+    const url = `${this.baseUrl}/roles/${roleId}/permissions/multiple`;
+
+    // Send raw array, not an object
+    const payload = permissionIds;
+
+    console.log('Assigning multiple permissions:', payload, 'to role:', roleId);
+
+    return this.http.put(url, payload, { headers }).pipe(
+      tap(() =>
+        console.log(`Multiple permissions assigned to role ${roleId}:`, payload)
+      ),
+      catchError((error) => {
+        console.error(
+          `Error assigning multiple permissions to role ${roleId}`,
+          error
+        );
+        return throwError(() => error);
+      })
+    );
+  }
+
+  // Update permissions for a role - DEPRECATED: Use assignMultiplePermissionsToRole instead
   updateRolePermissions(
     roleId: number,
     permissions: string[]
   ): Observable<any> {
     console.log(
-      'Updating permissions for role ID:',
-      roleId,
-      'Permissions:',
-      permissions
+      'updateRolePermissions is deprecated, use assignMultiplePermissionsToRole instead'
     );
 
     if (this.useMockData) {
@@ -316,11 +380,19 @@ export class RolesService {
     );
   }
 
-  // Error handling
+  // Enhanced error handling
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      console.error(`${operation} failed: ${error.message}`);
-      // Let the app keep running by returning an empty result
+      console.error(`${operation} failed:`, error);
+
+      // Log more details for debugging
+      if (error.status) {
+        console.error(`HTTP Status: ${error.status}`);
+        console.error(`Error Message: ${error.message}`);
+        console.error(`URL: ${error.url}`);
+      }
+
+      // Return safe fallback result
       return of(result as T);
     };
   }

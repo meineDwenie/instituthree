@@ -7,18 +7,19 @@ body {
   overflow: hidden; /* Prevent full-page scroll */
 }
 
+/*
 .roles-management-container {
-  height: calc(100vh - 100px); /* Subtract toolbar height */
+  height: calc(100vh - 100px); // Subtract toolbar height 
   padding: 20px 50px 20px 50px;
-  margin-left: 320px; /* Leave room for sidebar */
+  margin-left: 320px; // Leave room for sidebar 
   background-color: #f6f6f6;
+*/
 
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 h1 {

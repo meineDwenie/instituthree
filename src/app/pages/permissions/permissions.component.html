@@ -1,2 +1,16 @@
-<app-header-nav></app-header-nav>
-<app-sidebar></app-sidebar>
+<div class="permissions-container">
+  <div class="header">
+    <h1>Permissions</h1>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+
+  <app-users-table
+    [displayedColumns]="displayedColumns"
+    [userData]="adaptedPermissionsData"
+    (filterChange)="applyFilter($event)"
+  >
+  </app-users-table>
+</div>

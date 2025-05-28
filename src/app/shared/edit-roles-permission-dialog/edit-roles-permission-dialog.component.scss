@@ -45,6 +45,15 @@ p {
   height: 100%;
 }
 
+mat-dialog-content {
+  margin-bottom: 24px;
+}
+
+mat-dialog-actions {
+  padding: 16px 0;
+  margin-bottom: 0;
+}
+
 .mat-mdc-raised-button:not(:disabled) {
   color: white;
   background-color: #5884ac;

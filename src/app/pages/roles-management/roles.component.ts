@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderNavComponent } from '../../shared/header-nav/header-nav.component';
-import { SidebarComponent } from '../../shared/sidebar/sidebar.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 import { UsersTableComponent } from '../../shared/users-table/users-table.component';
 import { Role } from '../../models/role';
 import { AddRoleDialogComponent } from '../../shared/add-role-dialog/add-role-dialog.component';
@@ -20,8 +17,6 @@ import { RolesService } from '../../services/roles.service';
   standalone: true,
   imports: [
     CommonModule,
-    HeaderNavComponent,
-    SidebarComponent,
     UsersTableComponent,
     MatButtonModule,
     MatDialogModule,
@@ -38,7 +33,7 @@ export class RolesComponent implements OnInit {
   // This will store the UserData-compatible objects
   adaptedRolesData: UserData[] = [];
 
-  isLoading = true; // Start with loading state as true
+  isLoading = true; // for spinner
 
   constructor(
     private dialog: MatDialog,
@@ -165,7 +160,6 @@ export class RolesComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((result) => {
           if (result) {
-            // Handle any updates after dialog closes if needed
             this.isLoading = true;
 
             // Dialog component should save the permissions
@@ -173,7 +167,7 @@ export class RolesComponent implements OnInit {
             setTimeout(() => {
               this.loadRoles();
 
-              // Show success message
+              // Success message
               this.snackBar.open(
                 `Permissions for '${role.name}' updated successfully`,
                 'Close',

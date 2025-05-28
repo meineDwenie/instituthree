@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderNavComponent } from '../../shared/header-nav/header-nav.component';
-import { SidebarComponent } from '../../shared/sidebar/sidebar.component';
 import { UsersTableComponent } from '../../shared/users-table/users-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,14 +12,13 @@ import { UsersService } from '../../services/users.service';
 import { EditUserDialogComponent } from '../../shared/edit-user-dialog/edit-user-dialog.component';
 import { DeleteUserDialogComponent } from '../../shared/delete-user-dialog/delete-user-dialog.component';
 import { AddUserDialogComponent } from '../../shared/add-user-dialog/add-user-dialog.component';
+import { SidebarService } from '../../services/sidebar.service';
 
 @Component({
   selector: 'app-user-management',
   standalone: true,
   imports: [
     CommonModule,
-    HeaderNavComponent,
-    SidebarComponent,
     UsersTableComponent,
     MatTableModule,
     MatButtonModule,
@@ -42,11 +39,17 @@ export class UserManagementComponent {
   constructor(
     private usersService: UsersService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private sidebarService: SidebarService
   ) {}
+
+  isSidebarOpen = true;
 
   ngOnInit(): void {
     this.loadUsers();
+    this.sidebarService.isOpen$.subscribe((open) => {
+      this.isSidebarOpen = open;
+    });
   }
 
   loadUsers(): void {

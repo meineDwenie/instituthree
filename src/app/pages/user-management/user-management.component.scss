@@ -11,12 +11,21 @@ body {
   background-color: #f6f6f6;
 }
 
+/*
 .user-management-container {
-  height: calc(100vh - 100px); /* Subtract toolbar height */
-  padding: 20px 50px 20px 50px;
-  margin-left: 320px; /* Leave room for sidebar */
+  height: calc(100vh - 100px); // Adjust for header 
+  padding: 20px 50px;
+  margin-left: 260px; // full sidebar width 
+  width: calc(100% - 260px); // dynamic width 
+  transition: all 0.3s ease;
   background-color: #f6f6f6;
 }
+
+.user-management-container.sidebar-collapsed {
+  margin-left: 60px; // collapsed sidebar width
+  width: calc(100% - 60px); // expanded main area
+}
+  */
 
 .user-management-header {
   display: flex;
