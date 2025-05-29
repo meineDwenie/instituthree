@@ -1,5 +1,16 @@
+<!-- Mobile Sidebar Toggle (Only visible on small screens) -->
+<button class="sidebar-mobile-toggle d-md-none" (click)="toggleSidebar()">
+  <i
+    class="bi"
+    [ngClass]="{
+      'bi-layout-sidebar-inset-reverse': !isSidebarOpen,
+      'bi-layout-sidebar-inset': isSidebarOpen
+    }"
+  ></i>
+</button>
+
 <app-header-nav></app-header-nav>
-<app-sidebar></app-sidebar>
+<app-sidebar [ngClass]="{ collapsed: !isSidebarOpen }"></app-sidebar>
 
 <main class="main-content" [class.sidebar-collapsed]="!isSidebarOpen">
   <router-outlet></router-outlet>

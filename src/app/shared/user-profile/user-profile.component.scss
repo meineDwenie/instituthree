@@ -1,3 +1,7 @@
+html {
+  font-family: "Murecho", sans-serif;
+}
+
 .header-user-profile {
   display: flex;
   align-items: center;
@@ -51,6 +55,32 @@
 
     mat-icon {
       margin-right: 4px;
+    }
+  }
+}
+
+/******* RESPONSIVE STYLE ************/
+@media (max-width: 600px) {
+  .header-user-profile {
+    padding-right: 0 !important;
+    padding-left: 12px;
+
+    .profile-avatar {
+      margin-right: 4px;
+    }
+
+    .arrow-down-icon {
+      margin: 0 !important;
+    }
+
+    .profile-info {
+      margin-right: 4px;
+
+      .user-name,
+      .user-email {
+        font-size: 0; // Hide text but keep space if needed
+        display: none; // Fully hide text for better space usage
+      }
     }
   }
 }

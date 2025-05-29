@@ -11,22 +11,6 @@ body {
   background-color: #f6f6f6;
 }
 
-/*
-.user-management-container {
-  height: calc(100vh - 100px); // Adjust for header 
-  padding: 20px 50px;
-  margin-left: 260px; // full sidebar width 
-  width: calc(100% - 260px); // dynamic width 
-  transition: all 0.3s ease;
-  background-color: #f6f6f6;
-}
-
-.user-management-container.sidebar-collapsed {
-  margin-left: 60px; // collapsed sidebar width
-  width: calc(100% - 60px); // expanded main area
-}
-  */
-
 .user-management-header {
   display: flex;
   justify-content: space-between;
@@ -87,4 +71,75 @@ h1 {
   justify-content: center;
   align-items: center;
   height: 100vh;
+}
+
+/*************** RESPONSIVE STYLES *********************/
+/* Tablet styles (768px - 1023px) */
+@media (max-width: 1023px) {
+  .user-management-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .btn-adduser {
+    width: 100%;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .user-table-wrapper {
+    overflow-x: auto;
+  }
+
+  .user-info {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+/* Phone styles (≤ 767px) */
+@media (max-width: 767px) {
+  .user-management-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .btn-adduser {
+    width: 100%;
+    justify-content: center;
+    font-size: 13px;
+    padding: 10px 0;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  .user-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .user-photo {
+    width: 35px;
+    height: 35px;
+  }
+
+  .loading-spinner {
+    height: 60vh;
+  }
 }

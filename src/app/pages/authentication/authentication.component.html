@@ -1,32 +1,50 @@
 <app-header-nav></app-header-nav>
 
 <div class="auth-container" [class.right-panel-active]="isRegisterMode">
-  <!-- Login Panel (right) -->
-  <div class="form-container login-container">
-    <app-login-form (switchToRegister)="switchToRegister()"></app-login-form>
-  </div>
+  <!-- Small screens: show one form at a time -->
+  <ng-container *ngIf="isSmallScreen">
+    <div class="form-container single-form-container">
+      <app-login-form
+        *ngIf="!isRegisterMode"
+        (switchToRegister)="switchToRegister()"
+      ></app-login-form>
 
-  <!-- Register Panel (left) -->
-  <div class="form-container register-container">
-    <app-register-form (switchToLogin)="switchToLogin()"></app-register-form>
-  </div>
+      <app-register-form
+        *ngIf="isRegisterMode"
+        (switchToLogin)="switchToLogin()"
+      ></app-register-form>
+    </div>
+  </ng-container>
 
-  <!-- Sliding overlay -->
-  <div class="overlay-container">
-    <div class="overlay">
-      <div class="overlay-panel overlay-left">
-        <div class="imageContainer">
-          <img
-            [src]="
-              isRegisterMode
-                ? 'assets/images/signUpStoryset.png'
-                : 'assets/images/loginStoryset.png'
-            "
-            [alt]="isRegisterMode ? 'register photo' : 'login photo'"
-            class="authImage"
-          />
+  <!-- Large screens: show both panels with sliding overlay -->
+  <ng-container *ngIf="!isSmallScreen">
+    <!-- Login Panel (right) -->
+    <div class="form-container login-container">
+      <app-login-form (switchToRegister)="switchToRegister()"></app-login-form>
+    </div>
+
+    <!-- Register Panel (left) -->
+    <div class="form-container register-container">
+      <app-register-form (switchToLogin)="switchToLogin()"></app-register-form>
+    </div>
+
+    <!-- Sliding overlay -->
+    <div class="overlay-container">
+      <div class="overlay">
+        <div class="overlay-panel overlay-left">
+          <div class="imageContainer">
+            <img
+              [src]="
+                isRegisterMode
+                  ? 'assets/images/signUpStoryset.png'
+                  : 'assets/images/loginStoryset.png'
+              "
+              [alt]="isRegisterMode ? 'register photo' : 'login photo'"
+              class="authImage"
+            />
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </ng-container>
 </div>

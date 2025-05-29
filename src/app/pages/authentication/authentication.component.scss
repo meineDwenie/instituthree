@@ -166,3 +166,138 @@ mat-select {
   color: white;
   height: 100%;
 }
+
+.single-form-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+/* ====================== */
+/* RESPONSIVE STYLES */
+/* ====================== */
+
+/* Mobile styles (≤ 600px) */
+@media (max-width: 600px) {
+  .auth-container {
+    flex-direction: column;
+    height: auto;
+
+    .form-container {
+      width: 100%;
+      position: relative;
+      transform: none !important;
+      left: 0 !important;
+      right: 0 !important;
+      height: 100vh;
+    }
+
+    .login-container,
+    .register-container {
+      z-index: auto !important;
+    }
+
+    .form-container .login-container {
+      background-color: rgb(124, 165, 150);
+    }
+
+    .overlay-container {
+      display: none; /* Hide overlay for simplicity */
+    }
+  }
+
+  .login-form-container,
+  .register-form-container {
+    max-width: 100%;
+    padding: 20px 15px;
+    box-shadow: none;
+  }
+
+  .buttonsContainer {
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .buttonShifting1,
+  .buttonShifting2 {
+    min-width: auto;
+    width: 100%;
+    margin: 5px 0;
+  }
+
+  .etiqueta {
+    font-size: 1.25rem;
+  }
+
+  input {
+    font-size: 14px;
+  }
+
+  .signupButton,
+  .createAccountButton {
+    font-size: 15px;
+  }
+}
+
+/* Tablet styles (601px - 1024px) */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .auth-container {
+    height: auto;
+
+    .form-container {
+      width: 100%;
+      position: relative;
+      transform: none !important;
+    }
+
+    .overlay-container {
+      width: 100%;
+      position: relative;
+      height: auto;
+      display: none;
+
+      .overlay {
+        flex-direction: column;
+        padding: 20px;
+      }
+
+      .overlay-panel {
+        padding: 1rem;
+      }
+    }
+  }
+
+  .login-form-container,
+  .register-form-container {
+    max-width: 90%;
+    padding: 24px;
+  }
+
+  .buttonsContainer {
+    width: 90%;
+    max-width: 300px;
+  }
+
+  .buttonShifting1,
+  .buttonShifting2 {
+    font-size: 13px;
+  }
+
+  .authImage {
+    max-height: 100vh;
+    //display: none;
+  }
+}
+
+/*
+@media (max-width: 768px) {
+  .authImage {
+    display: none;
+  }
+}
+  */

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsersTableComponent } from '../../shared/users-table/users-table.component';
 import { MatTableModule } from '@angular/material/table';

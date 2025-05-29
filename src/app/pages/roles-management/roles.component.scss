@@ -1,3 +1,6 @@
+/* ============================== */
+/* BASE STYLES                   */
+/* ============================== */
 html,
 body {
   font-family: "Murecho", sans-serif;
@@ -6,14 +9,6 @@ body {
   padding: 0;
   overflow: hidden; /* Prevent full-page scroll */
 }
-
-/*
-.roles-management-container {
-  height: calc(100vh - 100px); // Subtract toolbar height 
-  padding: 20px 50px 20px 50px;
-  margin-left: 320px; // Leave room for sidebar 
-  background-color: #f6f6f6;
-*/
 
 .header {
   display: flex;
@@ -63,4 +58,51 @@ h1 {
 
 ::ng-deep .mat-mdc-snack-bar-action {
   color: white !important;
+}
+
+/* ============================== */
+/* RESPONSIVE STYLES             */
+/* ============================== */
+
+/* Tablet (768px - 1023px) */
+@media (max-width: 1023px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .btn-addrole {
+    width: 100%;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .loading-spinner {
+    height: 60vh;
+  }
+}
+
+/* Phone (≤ 767px) */
+@media (max-width: 767px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .btn-addrole {
+    width: 100%;
+    justify-content: center;
+    font-size: 13px;
+    padding: 10px 0;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  .loading-spinner {
+    height: 60vh;
+  }
 }

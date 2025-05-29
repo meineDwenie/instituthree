@@ -3,8 +3,6 @@ mat-toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  //background-color: #313131;
-  //color: white;
   background-color: #ffffff;
   color: #418a7e;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -13,7 +11,7 @@ mat-toolbar {
 }
 
 .lang-select {
-  margin-right: 0; // optional spacing to right side
+  margin-right: 0;
 }
 
 .logoLabel {
@@ -26,4 +24,24 @@ mat-toolbar {
 
 .spacer {
   flex: 1 1 auto;
+}
+
+/* ---------------------- */
+/* TABLET (max-width: 1023px) */
+/* ---------------------- */
+@media (max-width: 1023px) {
+  .logoLabel {
+    font-weight: 400;
+    font-size: 28px;
+    margin-left: 40px;
+  }
+}
+
+// PHONE
+@media (max-width: 767px) {
+  .logoLabel {
+    font-weight: 400;
+    font-size: 26px;
+    margin-left: 36px;
+  }
 }

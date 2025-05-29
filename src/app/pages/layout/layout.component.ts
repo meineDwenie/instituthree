@@ -22,4 +22,8 @@ export class LayoutComponent {
       this.isSidebarOpen = state;
     });
   }
+
+  toggleSidebar() {
+    this.sidebarService.toggleSidebar();
+  }
 }

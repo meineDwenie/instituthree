@@ -8,6 +8,10 @@
   align-items: center;
 }
 
+.lang-label {
+  display: inline-block;
+}
+
 .compact-select {
   margin: 0 0 12px 0;
   padding: 0;
@@ -61,4 +65,23 @@ mat-toolbar app-select {
   display: flex;
   align-items: center;
   height: 100%;
+}
+
+/* Responsive behavior */
+@media (max-width: 600px) {
+  .lang-label {
+    display: none;
+  }
+
+  .compact-select ::ng-deep .mat-mdc-form-field {
+    width: 50px !important; /* adjust for flag size only */
+  }
+
+  .compact-select ::ng-deep .mat-mdc-select {
+    padding: 0 4px;
+  }
+
+  .compact-select ::ng-deep .mat-mdc-select-arrow {
+    display: none; /* Optional: hide dropdown arrow */
+  }
 }

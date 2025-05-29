@@ -8,13 +8,13 @@
           [src]="getSelectedLang()?.flag"
           [alt]="getSelectedLang()?.label + ' flag'"
         />
-        {{ getSelectedLang()?.label }}
+        <span class="lang-label">{{ getSelectedLang()?.label }}</span>
       </mat-select-trigger>
 
       <!-- Dropdown options -->
       <mat-option *ngFor="let lang of languages" [value]="lang.code">
         <img class="flag-icon" [src]="lang.flag" [alt]="lang.label + ' flag'" />
-        {{ lang.label }}
+        <span class="lang-label">{{ lang.label }}</span>
       </mat-option>
     </mat-select>
   </mat-form-field>
