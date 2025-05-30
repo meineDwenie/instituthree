@@ -39,7 +39,6 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
       console.log('Login with:', email, password);
-      // Perform login action here, BACKEND (e.g., )call an authentication service)
     } else {
       console.log('Form is invalid');
     }

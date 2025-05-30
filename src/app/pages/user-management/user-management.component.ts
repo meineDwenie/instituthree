@@ -149,7 +149,7 @@ export class UserManagementComponent {
       email: user.email,
       name: user.name,
       lastName: user.lastName,
-      status: user.status === 'Active', // Convert to boolean as API expects
+      status: user.status === 'Active',
     };
     console.log('Update payload:', updatePayload);
 
@@ -184,12 +184,12 @@ export class UserManagementComponent {
   private addUser(user: any): void {
     // Map to API's CreateUserRequest format
     const requestPayload: CreateUserRequest = {
-      username: user.email.split('@')[0], // You can change this if you want custom usernames
+      username: user.email.split('@')[0],
       password: user.password,
       email: user.email,
       name: user.name,
       lastName: user.lastName,
-      status: user.status === 'Active', // Convert to boolean as API expects
+      status: user.status === 'Active',
     };
 
     this.usersService.createUserRequest(requestPayload).subscribe({

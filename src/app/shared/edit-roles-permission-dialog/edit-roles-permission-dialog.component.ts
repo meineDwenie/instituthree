@@ -156,7 +156,7 @@ export class EditRolesPermissionDialogComponent implements OnInit {
             typeof rolePermissions[0] === 'object' &&
             'permissions' in rolePermissions[0]
           ) {
-            // ✅ It's an array of { role: string, permissions: string[] }
+            // Array of { role: string, permissions: string[] }
             const allRolesPermissions = rolePermissions as {
               role: string;
               permissions: string[];

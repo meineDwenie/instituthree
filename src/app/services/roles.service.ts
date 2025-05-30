@@ -245,7 +245,7 @@ export class RolesService {
       return throwError(() => new Error('Authentication token not found.'));
     }
 
-    // According to your API docs, this should be a PUT request
+    // PUT request
     return this.http
       .put<string[]>(`${this.baseUrl}/roles/${roleId}/permissions`, null, {
         headers,
@@ -302,16 +302,38 @@ export class RolesService {
       return throwError(() => new Error('Authentication token not found.'));
     }
 
-    const url = `${this.baseUrl}/roles/${roleId}/permissions/multiple`;
+    if (permissionIds.length === 1) {
+      // Use single-permission endpoint
+      const singleUrl = `${this.baseUrl}/roles/${roleId}/permissions/${permissionIds[0]}`;
+      return this.http.put(singleUrl, null, { headers }).pipe(
+        tap(() =>
+          console.log(
+            `Single permission ${permissionIds[0]} assigned to role ${roleId}`
+          )
+        ),
+        catchError((error) => {
+          console.error(
+            `Error assigning single permission to role ${roleId}`,
+            error
+          );
+          return throwError(() => error);
+        })
+      );
+    }
 
-    // Send raw array, not an object
-    const payload = permissionIds;
+    // Multiple permissions: idp1=1&idp2=2...
+    const queryParams = permissionIds
+      .map((id, index) => `idp${index + 1}=${id}`)
+      .join('&');
 
-    console.log('Assigning multiple permissions:', payload, 'to role:', roleId);
+    const url = `${this.baseUrl}/roles/${roleId}/permissions/multiple?${queryParams}`;
 
-    return this.http.put(url, payload, { headers }).pipe(
+    return this.http.put(url, null, { headers }).pipe(
       tap(() =>
-        console.log(`Multiple permissions assigned to role ${roleId}:`, payload)
+        console.log(
+          `Multiple permissions assigned to role ${roleId}:`,
+          permissionIds
+        )
       ),
       catchError((error) => {
         console.error(
@@ -323,7 +345,6 @@ export class RolesService {
     );
   }
 
-  // Update permissions for a role - DEPRECATED: Use assignMultiplePermissionsToRole instead
   updateRolePermissions(
     roleId: number,
     permissions: string[]
@@ -380,7 +401,7 @@ export class RolesService {
     );
   }
 
-  // Enhanced error handling
+  // Error handling
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(`${operation} failed:`, error);

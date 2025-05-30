@@ -62,21 +62,11 @@ export class PermissionsComponent implements OnInit {
       username: `${perm.name.toLowerCase()}`,
       email: `${perm.name.toLowerCase()}@permissions.app`,
       password: '',
-      role: 'Admin', // or 'Permission' if you add it to the union type
+      role: 'Admin',
       status: 'Active',
       photoUrl: 'assets/images/default-permission-icon.png',
       originalRole: perm,
     }));
-  }
-
-  editPermission(permission: UserData): void {
-    console.log('Edit permission:', permission);
-    // You could open an edit dialog here
-  }
-
-  deletePermission(permission: UserData): void {
-    console.log('Delete permission:', permission);
-    // You could add a confirmation + call delete API
   }
 
   applyFilter(value: string): void {

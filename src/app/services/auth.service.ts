@@ -28,7 +28,7 @@ export class AuthService {
       this.currentUserSubject.next(JSON.parse(storedUser));
     }
 
-    console.log('Stored user:', storedUser); // Ensure it's properly retrieved from localStorage
+    console.log('Stored user:', storedUser); // Log retrieval from localStorage
 
     this.initMockData(); // load saved mock users from localStorage
   }

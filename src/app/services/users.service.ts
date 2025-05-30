@@ -56,7 +56,7 @@ export class UsersService {
             email: user.email,
             role: this.mapRole(user.username), // Map based on username or add role field to API
             status: user.status ? 'Active' : 'Pending',
-            photoUrl: user.photoUrl || 'assets/images/user.png', // Use photoUrl from API if available
+            photoUrl: user.photoUrl || 'assets/images/user.png',
             originalRole: user.username,
           })) as UserData[]
       ),

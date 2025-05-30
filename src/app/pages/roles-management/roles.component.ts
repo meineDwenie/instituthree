@@ -30,7 +30,7 @@ export class RolesComponent implements OnInit {
   roles: Role[] = [];
   displayedColumns: string[] = ['nameId', 'description', 'actions'];
 
-  // This will store the UserData-compatible objects
+  // Store the UserData-compatible objects
   adaptedRolesData: UserData[] = [];
 
   isLoading = true; // for spinner
